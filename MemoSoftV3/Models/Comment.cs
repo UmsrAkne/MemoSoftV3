@@ -17,5 +17,11 @@ namespace MemoSoftV3.Models
 
         [Required]
         public DateTime CreationDateTime { get; set; } = DateTime.Now;
+
+        [Required]
+        public bool IsCheckable { get; set; }
+
+        [Required]
+        public bool Checked { get; set; }
     }
 }
