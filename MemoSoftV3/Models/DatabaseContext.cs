@@ -14,14 +14,42 @@ namespace MemoSoftV3.Models
         // DbContext の実装クラスに必須のため
         public DbSet<Comment> Comments { get; set; }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // DbContext の実装クラスに必須のため
+        public DbSet<Tag> Tags { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // DbContext の実装クラスに必須のため
+        public DbSet<TagMap> TagMaps { get; set; }
+
         public IEnumerable<Comment> GetComments()
         {
             return Comments;
         }
 
+        public IEnumerable<Tag> GetTags()
+        {
+            return Tags;
+        }
+
+        public IEnumerable<TagMap> GetTagMaps()
+        {
+            return TagMaps;
+        }
+
         public void Add(Comment cm)
         {
             Comments.Add(cm);
+        }
+
+        public void Add(Tag tag)
+        {
+            Tags.Add(tag);
+        }
+
+        public void Add(TagMap tagMap)
+        {
+            TagMaps.Add(tagMap);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
