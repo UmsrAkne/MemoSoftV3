@@ -51,5 +51,73 @@ namespace MemoSoftV3Tests.Models
             Assert.That(source.GetTags().First(), Is.EqualTo(tag1), "tag1 が先に追加されるので、tag2 は入力されない。");
             Assert.That(source.GetTags().Count(), Is.EqualTo(1), "入力は２回だが、実際に入力されるのは１回目のみ");
         }
+
+        [Test]
+        public void AddTagMapTest()
+        {
+            var source = new DatabaseMock();
+            source.Tags.Add(new Tag() { Id = 1, Name = "a", });
+            source.Comments.Add(new Comment() { Id = 1, Text = "test", });
+
+            var tagMap = new TagMap()
+            {
+                Id = 1, TagId = 1, CommentId = 1,
+            };
+
+            var manager = new DatabaseManager(source);
+            manager.Add(tagMap);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(source.GetTagMaps().First(), Is.EqualTo(tagMap));
+                Assert.That(source.GetTagMaps().Count(), Is.EqualTo(1));
+            });
+        }
+
+        [Test]
+        [TestCase(1, -1, 1)]
+        [TestCase(1, 1, -1)]
+        [TestCase(1, -1, -1)]
+        [TestCase(1, 2, 1)]
+        [TestCase(1, 1, 2)]
+        [TestCase(1, 2, 2)]
+        public void AddTagMapTest_無効な入力(int id, int tagId, int commentId)
+        {
+            var source = new DatabaseMock();
+            source.Tags.Add(new Tag() { Id = 1, Name = "a", });
+            source.Comments.Add(new Comment() { Id = 1, Text = "test", });
+
+            var tagMap = new TagMap()
+            {
+                Id = id, TagId = tagId, CommentId = commentId,
+            };
+
+            var manager = new DatabaseManager(source);
+            manager.Add(tagMap);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(source.GetTagMaps().Count(), Is.Zero, "無効な値を入力したので中身は空");
+            });
+        }
+
+        public void AddTagMapTest_重複入力(int id, int tagId, int commentId)
+        {
+            var source = new DatabaseMock();
+            source.Tags.Add(new Tag() { Id = 1, Name = "a", });
+            source.Comments.Add(new Comment() { Id = 1, Text = "test", });
+
+            var tagMap = new TagMap() { Id = 1, TagId = 1, CommentId = 1, };
+            var tagMap2 = new TagMap() { Id = 2, TagId = 1, CommentId = 1, };
+
+            var manager = new DatabaseManager(source);
+            manager.Add(tagMap);
+            manager.Add(tagMap2);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(source.GetTagMaps().Count(), Is.EqualTo(1), "重複として判定されるはずの要素を２つ入れたので片方弾かれて 1");
+            });
+        }
     }
 }

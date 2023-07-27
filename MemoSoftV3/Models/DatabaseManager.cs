@@ -33,5 +33,26 @@ namespace MemoSoftV3.Models
 
             DataSource.Add(tag);
         }
+
+        public void Add(TagMap tagMap)
+        {
+            // 0以下の Id は不正な Id
+            var isIllegalId = tagMap.TagId <= 0 || tagMap.CommentId <= 0;
+
+            // リンク先のタグとコメントが存在するか
+            var existsTag = DataSource.GetTags().Any(t => t.Id == tagMap.TagId);
+            var existsComment = DataSource.GetComments().Any(c => c.Id == tagMap.CommentId);
+
+            // 重複チェック
+            var containsSame = DataSource.GetTagMaps()
+                .Any(t => t.TagId == tagMap.TagId && t.CommentId == tagMap.CommentId);
+
+            if (isIllegalId || !existsTag || !existsComment || containsSame)
+            {
+                return;
+            }
+
+            DataSource.Add(tagMap);
+        }
     }
 }

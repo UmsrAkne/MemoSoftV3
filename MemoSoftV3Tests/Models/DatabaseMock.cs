@@ -4,9 +4,9 @@ namespace MemoSoftV3Tests.Models
 {
     public class DatabaseMock : IDataSource
     {
-        private List<Comment> Comments { get; } = new ();
+        public List<Comment> Comments { get; } = new ();
 
-        private List<Tag> Tags { get; } = new ();
+        public List<Tag> Tags { get; } = new ();
 
         private List<TagMap> TagMaps { get; } = new ();
 
