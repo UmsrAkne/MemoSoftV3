@@ -149,5 +149,16 @@ namespace MemoSoftV3Tests.Models
                 Assert.That(source.GetGroups().FirstOrDefault(), Is.Null);
             });
         }
+
+        [Test]
+        public void AddComment_異常なグループを持ったコメントの追加()
+        {
+            var source = new DatabaseMock();
+            var comment = new Comment { GroupId = 2, }; // GroupId == 2 は存在しない。
+            var manager = new DatabaseManager(source);
+            manager.Add(comment);
+
+            Assert.That(source.GetComments().Count(), Is.EqualTo(0), "コメントは不正な値のはずなので、追加処理はされていないはず。");
+        }
     }
 }
