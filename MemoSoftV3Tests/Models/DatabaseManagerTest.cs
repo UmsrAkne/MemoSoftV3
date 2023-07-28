@@ -161,5 +161,42 @@ namespace MemoSoftV3Tests.Models
 
             Assert.That(source.GetComments().Count(), Is.EqualTo(0), "コメントは不正な値のはずなので、追加処理はされていないはず。");
         }
+
+        [Test]
+        public void DatabaseAction追加のテスト()
+        {
+            var source = new DatabaseMock();
+
+            var group = new Group { Id = 1, Name = "testGroup", };
+            var comment = new Comment { Id = 2, GroupId = 1, Text = "testComment", };
+            var tag = new Tag { Id = 3, Name = "testTag", };
+            var tagMap = new TagMap { Id = 4, TagId = 3, CommentId = 2, };
+
+            var manager = new DatabaseManager(source);
+            manager.Add(group);
+            manager.Add(comment);
+            manager.Add(tag);
+            manager.Add(tagMap);
+
+            var acs = source.GetActions().ToList();
+
+            var g = acs.First(a => a is { Kind: Kind.Add, Target: Target.Group, });
+            var c = acs.First(a => a is { Kind: Kind.Add, Target: Target.Comment, });
+            var t = acs.First(a => a is { Kind: Kind.Add, Target: Target.Tag, });
+            var tm = acs.First(a => a is { Kind: Kind.Add, Target: Target.TagMap, });
+
+            // TargetId が間違いなくセットされているか確認する。
+            Assert.Multiple(() =>
+            {
+                Assert.That(g, !Is.Null);
+                Assert.That(g.TargetId, Is.EqualTo(1));
+                Assert.That(c, !Is.Null);
+                Assert.That(c.TargetId, Is.EqualTo(2));
+                Assert.That(t, !Is.Null);
+                Assert.That(t.TargetId, Is.EqualTo(3));
+                Assert.That(tm, !Is.Null);
+                Assert.That(tm.TargetId, Is.EqualTo(4));
+            });
+        }
     }
 }

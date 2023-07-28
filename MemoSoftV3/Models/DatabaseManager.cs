@@ -22,6 +22,7 @@ namespace MemoSoftV3.Models
             }
             
             DataSource.Add(cm);
+            DataSource.Add(new DatabaseAction(cm, Kind.Add));
         }
 
         /// <summary>
@@ -40,6 +41,7 @@ namespace MemoSoftV3.Models
             }
 
             DataSource.Add(tag);
+            DataSource.Add(new DatabaseAction(tag, Kind.Add));
         }
 
         public void Add(TagMap tagMap)
@@ -61,6 +63,7 @@ namespace MemoSoftV3.Models
             }
 
             DataSource.Add(tagMap);
+            DataSource.Add(new DatabaseAction(tagMap, Kind.Add));
         }
 
         public void Add(Group group)
@@ -71,6 +74,7 @@ namespace MemoSoftV3.Models
             }
 
             DataSource.Add(group);
+            DataSource.Add(new DatabaseAction(group, Kind.Add));
         }
     }
 }
