@@ -12,6 +12,8 @@ namespace MemoSoftV3Tests.Models
 
         private List<Group> Groups { get; } = new ();
 
+        private List<DatabaseAction> Actions { get; } = new ();
+
         public IEnumerable<Comment> GetComments()
         {
             return Comments;
@@ -32,6 +34,11 @@ namespace MemoSoftV3Tests.Models
             return Groups;
         }
 
+        public IEnumerable<DatabaseAction> GetActions()
+        {
+            return Actions;
+        }
+
         public void Add(Comment cm)
         {
             Comments.Add(cm);
@@ -50,6 +57,11 @@ namespace MemoSoftV3Tests.Models
         public void Add(Group group)
         {
             Groups.Add(group);
+        }
+
+        public void Add(DatabaseAction action)
+        {
+            Actions.Add(action);
         }
     }
 }
