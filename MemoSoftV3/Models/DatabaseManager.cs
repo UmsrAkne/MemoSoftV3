@@ -54,5 +54,15 @@ namespace MemoSoftV3.Models
 
             DataSource.Add(tagMap);
         }
+
+        public void Add(Group group)
+        {
+            if (string.IsNullOrWhiteSpace(group.Name))
+            {
+                return;
+            }
+
+            DataSource.Add(group);
+        }
     }
 }

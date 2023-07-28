@@ -22,6 +22,10 @@ namespace MemoSoftV3.Models
         // DbContext の実装クラスに必須のため
         public DbSet<TagMap> TagMaps { get; set; }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // DbContext の実装クラスに必須のため
+        public DbSet<Group> Groups { get; set; }
+
         public IEnumerable<Comment> GetComments()
         {
             return Comments;
@@ -37,6 +41,11 @@ namespace MemoSoftV3.Models
             return TagMaps;
         }
 
+        public IEnumerable<Group> GetGroups()
+        {
+            return Groups;
+        }
+
         public void Add(Comment cm)
         {
             Comments.Add(cm);
@@ -50,6 +59,11 @@ namespace MemoSoftV3.Models
         public void Add(TagMap tagMap)
         {
             TagMaps.Add(tagMap);
+        }
+
+        public void Add(Group group)
+        {
+            Groups.Add(group);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
