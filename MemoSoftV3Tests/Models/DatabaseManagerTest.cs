@@ -101,7 +101,8 @@ namespace MemoSoftV3Tests.Models
             });
         }
 
-        public void AddTagMapTest_重複入力(int id, int tagId, int commentId)
+        [Test]
+        public void AddTagMapTest_重複入力()
         {
             var source = new DatabaseMock();
             source.Tags.Add(new Tag() { Id = 1, Name = "a", });
