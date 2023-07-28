@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MemoSoftV3.Models
 {
@@ -10,5 +12,8 @@ namespace MemoSoftV3.Models
 
         [Required]
         public string Name { get; set; }
+
+        [NotMapped]
+        public DateTime DateTime { get; set; } = DateTime.Now;
     }
 }

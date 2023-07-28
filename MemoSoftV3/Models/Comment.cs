@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MemoSoftV3.Models
 {
@@ -19,12 +20,12 @@ namespace MemoSoftV3.Models
         public bool IsFavorite { get; set; }
 
         [Required]
-        public DateTime CreationDateTime { get; set; } = DateTime.Now;
-
-        [Required]
         public bool IsCheckable { get; set; }
 
         [Required]
         public bool Checked { get; set; }
+
+        [NotMapped]
+        public DateTime DateTime { get; set; } = DateTime.Now;
     }
 }
