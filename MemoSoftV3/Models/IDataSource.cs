@@ -12,6 +12,8 @@ namespace MemoSoftV3.Models
 
         public IEnumerable<Group> GetGroups();
 
+        public IEnumerable<DatabaseAction> GetActions();
+
         public void Add(Comment cm);
 
         public void Add(Tag tag);
@@ -19,5 +21,7 @@ namespace MemoSoftV3.Models
         public void Add(TagMap tagMap);
 
         public void Add(Group group);
+
+        public void Add(DatabaseAction action);
     }
 }

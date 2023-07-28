@@ -26,6 +26,10 @@ namespace MemoSoftV3.Models
         // DbContext の実装クラスに必須のため
         public DbSet<Group> Groups { get; set; }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // DbContext の実装クラスに必須のため
+        public DbSet<DatabaseAction> Actions { get; set; }
+
         public IEnumerable<Comment> GetComments()
         {
             return Comments;
@@ -46,6 +50,11 @@ namespace MemoSoftV3.Models
             return Groups;
         }
 
+        public IEnumerable<DatabaseAction> GetActions()
+        {
+            return Actions;
+        }
+
         public void Add(Comment cm)
         {
             Comments.Add(cm);
@@ -64,6 +73,11 @@ namespace MemoSoftV3.Models
         public void Add(Group group)
         {
             Groups.Add(group);
+        }
+
+        public void Add(DatabaseAction action)
+        {
+            Actions.Add(action);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
