@@ -119,5 +119,46 @@ namespace MemoSoftV3Tests.Models
                 Assert.That(source.GetTagMaps().Count(), Is.EqualTo(1), "重複として判定されるはずの要素を２つ入れたので片方弾かれて 1");
             });
         }
+
+        [Test]
+        public void AddGroupTest_正常系()
+        {
+            var source = new DatabaseMock();
+            var group = new Group { Id = 1, Name = "testGroup", };
+            var manager = new DatabaseManager(source);
+            manager.Add(group);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(source.GetGroups().Count(), Is.EqualTo(1));
+                Assert.That(source.GetGroups().FirstOrDefault(), Is.EqualTo(group));
+            });
+        }
+
+        [Test]
+        public void AddGroupTest_名前が空文字のグループ()
+        {
+            var source = new DatabaseMock();
+            var group = new Group { Id = 1, Name = string.Empty, };
+            var manager = new DatabaseManager(source);
+            manager.Add(group);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(source.GetGroups().Count(), Is.EqualTo(0));
+                Assert.That(source.GetGroups().FirstOrDefault(), Is.Null);
+            });
+        }
+
+        [Test]
+        public void AddComment_異常なグループを持ったコメントの追加()
+        {
+            var source = new DatabaseMock();
+            var comment = new Comment { GroupId = 2, }; // GroupId == 2 は存在しない。
+            var manager = new DatabaseManager(source);
+            manager.Add(comment);
+
+            Assert.That(source.GetComments().Count(), Is.EqualTo(0), "コメントは不正な値のはずなので、追加処理はされていないはず。");
+        }
     }
 }

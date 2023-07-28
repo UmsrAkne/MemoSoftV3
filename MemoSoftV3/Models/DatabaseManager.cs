@@ -13,6 +13,14 @@ namespace MemoSoftV3.Models
 
         public void Add(Comment cm)
         {
+            var belongToGroup = cm.GroupId != 0;
+            var existsReferenceGroup = DataSource.GetGroups().Any(g => g.Id == cm.GroupId);
+            if (belongToGroup && !existsReferenceGroup)
+            {
+                // コメントがいずれかのグループに所属しているのに、参照先のグループが存在しない場合は処理を中断する。
+                return;
+            }
+            
             DataSource.Add(cm);
         }
 
@@ -53,6 +61,16 @@ namespace MemoSoftV3.Models
             }
 
             DataSource.Add(tagMap);
+        }
+
+        public void Add(Group group)
+        {
+            if (string.IsNullOrWhiteSpace(group.Name))
+            {
+                return;
+            }
+
+            DataSource.Add(group);
         }
     }
 }
