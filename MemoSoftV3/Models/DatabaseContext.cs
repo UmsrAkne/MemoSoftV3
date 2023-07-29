@@ -58,26 +58,31 @@ namespace MemoSoftV3.Models
         public void Add(Comment cm)
         {
             Comments.Add(cm);
+            SaveChanges();
         }
 
         public void Add(Tag tag)
         {
             Tags.Add(tag);
+            SaveChanges();
         }
 
         public void Add(TagMap tagMap)
         {
             TagMaps.Add(tagMap);
+            SaveChanges();
         }
 
         public void Add(Group group)
         {
             Groups.Add(group);
+            SaveChanges();
         }
 
         public void Add(DatabaseAction action)
         {
             Actions.Add(action);
+            SaveChanges();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
