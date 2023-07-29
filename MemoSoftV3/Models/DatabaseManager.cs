@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MemoSoftV3.Models
 {
@@ -75,6 +76,61 @@ namespace MemoSoftV3.Models
 
             DataSource.Add(group);
             DataSource.Add(new DatabaseAction(group, Kind.Add));
+        }
+
+        public List<Comment> SearchComments(SearchOption option)
+        {
+            if (option.IsDefault)
+            {
+                return DataSource.GetComments().ToList();
+            }
+
+            // 上から順番に、テキスト - グループ - 追加日時 の順番でフィルタリング。
+            var comments = DataSource.GetComments()
+                .Where(c => c.Text.Contains(option.Text) || string.IsNullOrEmpty(option.Text))
+                .Join(
+                    DataSource.GetGroups(),
+                    c => c.GroupId,
+                    g => g.Id,
+                    (c, g) =>
+                    {
+                        c.GroupName = g.Name;
+                        return c;
+                    })
+                .Where(c => c.GroupName.Contains(option.GroupName) || string.IsNullOrEmpty(option.GroupName))
+                .Join(
+                    DataSource.GetActions().Where(a => a.Target == Target.Comment && a.Kind == Kind.Add),
+                    c => c.Id,
+                    a => a.TargetId,
+                    (c, a) =>
+                    {
+                        c.DateTime = a.DateTime;
+                        return c;
+                    })
+                .Where(c => option.StartDateTime < c.DateTime && option.EndDateTime > c.DateTime)
+                .ToList();
+
+            if (!option.TagTexts.Any())
+            {
+                // タグのフィルタリングは、二度 Join が必要になるので、タグが未入力の場合は終了。
+                return comments;
+            }
+
+            var matchedTagMaps = DataSource.GetTags()
+                .Where(t => option.TagTexts.Contains(t.Name))
+                .Join(
+                    DataSource.GetTagMaps(),
+                    t => t.Id,
+                    tm => tm.TagId,
+                    (_, tm) => tm)
+                .ToList();
+
+            return comments.Join(
+                    matchedTagMaps,
+                    c => c.Id,
+                    tm => tm.CommentId,
+                    (c, _) => c)
+                .ToList();
         }
     }
 }

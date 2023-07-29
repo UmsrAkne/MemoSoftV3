@@ -1,4 +1,5 @@
 ﻿using MemoSoftV3.Models;
+using SearchOption = MemoSoftV3.Models.SearchOption;
 
 namespace MemoSoftV3Tests.Models
 {
@@ -197,6 +198,35 @@ namespace MemoSoftV3Tests.Models
                 Assert.That(tm, !Is.Null);
                 Assert.That(tm.TargetId, Is.EqualTo(4));
             });
+        }
+
+        [Test]
+        public void GetCommentsTest()
+        {
+            var source = new DatabaseMock();
+
+            var manager = new DatabaseManager(source);
+            manager.Add(new Group { Id = 1, Name = "defaultGroup", });
+            manager.Add(new Group { Id = 2, Name = "otherGroup", });
+            manager.Add(new Comment { Id = 1, GroupId = 1, Text = "testComment", });
+            manager.Add(new Comment { Id = 2, GroupId = 1, Text = "nextComment", });
+            manager.Add(new Comment { Id = 3, GroupId = 1, Text = "thirdComment", });
+            manager.Add(new Comment { Id = 4, GroupId = 2, Text = "test", });
+
+            manager.Add(new Tag { Id = 1, Name = "testTag", });
+            manager.Add(new TagMap { Id = 1, TagId = 1, CommentId = 2, });
+            manager.Add(new TagMap { Id = 2, TagId = 1, CommentId = 3, });
+
+            var comments = manager.SearchComments(new SearchOption
+            {
+                Text = "Comment",
+                StartDateTime = default,
+                EndDateTime = DateTime.MaxValue,
+                TagTexts = new List<string> { "testTag", },
+                GroupName = "defaultGroup",
+            });
+
+            Assert.That(comments, Has.Count.EqualTo(2));
         }
     }
 }
