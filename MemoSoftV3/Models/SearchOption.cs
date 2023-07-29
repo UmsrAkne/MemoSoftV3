@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MemoSoftV3.Models
 {
@@ -14,5 +15,12 @@ namespace MemoSoftV3.Models
         public List<string> TagTexts { get; set; } = new ();
 
         public string GroupName { get; set; } = string.Empty;
+
+        public bool IsDefault =>
+            string.IsNullOrEmpty(Text)
+            && string.IsNullOrEmpty(GroupName)
+            && !TagTexts.Any()
+            && StartDateTime.Ticks == 0
+            && EndDateTime == DateTime.MaxValue;
     }
 }
