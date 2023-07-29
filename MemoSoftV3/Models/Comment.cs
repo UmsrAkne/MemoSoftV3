@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,5 +28,11 @@ namespace MemoSoftV3.Models
 
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
+
+        [NotMapped]
+        public List<Tag> Tags { get; set; } = new ();
+
+        [NotMapped]
+        public string GroupName { get; set; } = string.Empty;
     }
 }
