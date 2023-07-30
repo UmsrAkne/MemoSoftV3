@@ -8,6 +8,8 @@ namespace MemoSoftV3Tests.Models
 
         public List<Tag> Tags { get; } = new ();
 
+        public List<SubComment> SubComments { get; } = new ();
+
         private List<TagMap> TagMaps { get; } = new ();
 
         private List<Group> Groups { get; } = new ();
@@ -17,6 +19,11 @@ namespace MemoSoftV3Tests.Models
         public IEnumerable<Comment> GetComments()
         {
             return Comments;
+        }
+
+        public IEnumerable<SubComment> GetSubComments()
+        {
+            return SubComments;
         }
 
         public IEnumerable<Tag> GetTags()
@@ -42,6 +49,10 @@ namespace MemoSoftV3Tests.Models
         public void Add(Comment cm)
         {
             Comments.Add(cm);
+        }
+
+        public void Add(SubComment cm)
+        {
         }
 
         public void Add(Tag tag)

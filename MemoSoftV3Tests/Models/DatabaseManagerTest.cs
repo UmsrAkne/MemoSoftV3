@@ -164,6 +164,17 @@ namespace MemoSoftV3Tests.Models
         }
 
         [Test]
+        public void AddSubComment_存在しない親を指定()
+        {
+            var source = new DatabaseMock();
+            var comment = new SubComment { ParentCommentId = 1, }; // コメントは一つも入ってないので、親コメントは存在しない。
+            var manager = new DatabaseManager(source);
+            manager.Add(comment);
+
+            Assert.That(source.GetSubComments().Count(), Is.EqualTo(0), "存在しないコメントを親にしたので、追加処理はされてないはず");
+        }
+
+        [Test]
         public void DatabaseAction追加のテスト()
         {
             var source = new DatabaseMock();
@@ -172,12 +183,14 @@ namespace MemoSoftV3Tests.Models
             var comment = new Comment { Id = 2, GroupId = 1, Text = "testComment", };
             var tag = new Tag { Id = 3, Name = "testTag", };
             var tagMap = new TagMap { Id = 4, TagId = 3, CommentId = 2, };
+            var subComment = new SubComment { Id = 5, ParentCommentId = 2, Text = "testSubComment", };
 
             var manager = new DatabaseManager(source);
             manager.Add(group);
             manager.Add(comment);
             manager.Add(tag);
             manager.Add(tagMap);
+            manager.Add(subComment);
 
             var acs = source.GetActions().ToList();
 
@@ -185,6 +198,7 @@ namespace MemoSoftV3Tests.Models
             var c = acs.First(a => a is { Kind: Kind.Add, Target: Target.Comment, });
             var t = acs.First(a => a is { Kind: Kind.Add, Target: Target.Tag, });
             var tm = acs.First(a => a is { Kind: Kind.Add, Target: Target.TagMap, });
+            var sc = acs.First(a => a is { Kind: Kind.Add, Target: Target.SubComment, });
 
             // TargetId が間違いなくセットされているか確認する。
             Assert.Multiple(() =>
@@ -197,6 +211,8 @@ namespace MemoSoftV3Tests.Models
                 Assert.That(t.TargetId, Is.EqualTo(3));
                 Assert.That(tm, !Is.Null);
                 Assert.That(tm.TargetId, Is.EqualTo(4));
+                Assert.That(sc, !Is.Null);
+                Assert.That(sc.TargetId, Is.EqualTo(5));
             });
         }
 

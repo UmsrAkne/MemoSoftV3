@@ -16,6 +16,13 @@ namespace MemoSoftV3.Models
             Kind = kind;
         }
 
+        public DatabaseAction(SubComment comment, Kind kind)
+        {
+            Target = Target.SubComment;
+            TargetId = comment.Id;
+            Kind = kind;
+        }
+        
         public DatabaseAction(Tag tag, Kind kind)
         {
             Target = Target.Tag;

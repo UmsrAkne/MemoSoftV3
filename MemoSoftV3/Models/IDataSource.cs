@@ -6,6 +6,8 @@ namespace MemoSoftV3.Models
     {
         public IEnumerable<Comment> GetComments();
 
+        public IEnumerable<SubComment> GetSubComments();
+
         public IEnumerable<Tag> GetTags();
 
         public IEnumerable<TagMap> GetTagMaps();
@@ -15,6 +17,8 @@ namespace MemoSoftV3.Models
         public IEnumerable<DatabaseAction> GetActions();
 
         public void Add(Comment cm);
+
+        public void Add(SubComment cm);
 
         public void Add(Tag tag);
 

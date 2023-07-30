@@ -16,6 +16,10 @@ namespace MemoSoftV3.Models
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         // DbContext の実装クラスに必須のため
+        public DbSet<SubComment> SubComments { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // DbContext の実装クラスに必須のため
         public DbSet<Tag> Tags { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
@@ -33,6 +37,11 @@ namespace MemoSoftV3.Models
         public IEnumerable<Comment> GetComments()
         {
             return Comments;
+        }
+
+        public IEnumerable<SubComment> GetSubComments()
+        {
+            return SubComments;
         }
 
         public IEnumerable<Tag> GetTags()
@@ -59,6 +68,11 @@ namespace MemoSoftV3.Models
         {
             Comments.Add(cm);
             SaveChanges();
+        }
+
+        public void Add(SubComment cm)
+        {
+            SubComments.Add(cm);
         }
 
         public void Add(Tag tag)

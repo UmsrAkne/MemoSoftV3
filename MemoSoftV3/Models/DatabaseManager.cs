@@ -26,6 +26,19 @@ namespace MemoSoftV3.Models
             DataSource.Add(new DatabaseAction(cm, Kind.Add));
         }
 
+        public void Add(SubComment cm)
+        {
+            var existsParentComment = DataSource.GetComments().Any(c => c.Id == cm.ParentCommentId);
+            if (!existsParentComment)
+            {
+                // 親コメントが存在しない場合は終了する。
+                return;
+            }
+
+            DataSource.Add(cm);
+            DataSource.Add(new DatabaseAction(cm, Kind.Add));
+        }
+
         /// <summary>
         ///     テーブルにタグを追加します。
         ///     tag.Name が重複するタグが入力された場合、tag.Name が空文字か null だった場合は、追加せずにメソッドを終了します。
