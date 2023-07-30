@@ -3,6 +3,7 @@
     public enum Target
     {
         Comment,
+        SubComment,
         Tag,
         TagMap,
         Group,
