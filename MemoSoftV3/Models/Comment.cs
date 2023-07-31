@@ -34,5 +34,8 @@ namespace MemoSoftV3.Models
 
         [NotMapped]
         public string GroupName { get; set; } = string.Empty;
+
+        [NotMapped]
+        public List<SubComment> SubComments { get; set; } = new ();
     }
 }

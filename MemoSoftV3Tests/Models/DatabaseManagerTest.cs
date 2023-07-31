@@ -244,5 +244,41 @@ namespace MemoSoftV3Tests.Models
 
             Assert.That(comments, Has.Count.EqualTo(2));
         }
+
+        [Test]
+        public void InjectPropertiesTest()
+        {
+            var source = new DatabaseMock();
+
+            var manager = new DatabaseManager(source);
+            manager.Add(new Group { Id = 1, Name = "defaultGroup", });
+            manager.Add(new Group { Id = 2, Name = "otherGroup", });
+            manager.Add(new Comment { Id = 1, GroupId = 1, Text = "testComment", });
+            manager.Add(new Comment { Id = 2, GroupId = 2, Text = "nextComment", });
+            manager.Add(new Tag { Id = 1, Name = "testTagA", });
+            manager.Add(new Tag { Id = 2, Name = "testTagB", });
+            manager.Add(new Tag { Id = 3, Name = "testTagC", });
+            manager.Add(new TagMap { Id = 1, TagId = 1, CommentId = 1, });
+            manager.Add(new TagMap { Id = 2, TagId = 2, CommentId = 1, });
+            manager.Add(new TagMap { Id = 3, TagId = 3, CommentId = 1, });
+            manager.Add(new TagMap { Id = 4, TagId = 1, CommentId = 2, });
+            manager.Add(new TagMap { Id = 5, TagId = 2, CommentId = 2, });
+            manager.Add(new SubComment() { Id = 1, Text = "subCommentA", ParentCommentId = 1, });
+            manager.Add(new SubComment() { Id = 2, Text = "subCommentB", ParentCommentId = 1, });
+            manager.Add(new SubComment() { Id = 3, Text = "subCommentC", ParentCommentId = 2, });
+
+            var comments = manager.SearchComments(new SearchOption());
+            comments = manager.InjectCommentProperties(comments);
+            var comment1 = comments[0];
+            var comment2 = comments[1];
+
+            Assert.That(comment1.GroupName, Is.EqualTo("defaultGroup"));
+            Assert.That(comment1.Tags, Has.Count.EqualTo(3));
+            Assert.That(comment1.SubComments, Has.Count.EqualTo(2));
+
+            Assert.That(comment2.GroupName, Is.EqualTo("otherGroup"));
+            Assert.That(comment2.Tags, Has.Count.EqualTo(2));
+            Assert.That(comment2.SubComments, Has.Count.EqualTo(1));
+        }
     }
 }
