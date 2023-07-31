@@ -4,5 +4,9 @@
     {
         Add,
         Edit,
+        ToCheckable,
+        ToUnCheckable,
+        Check,
+        UnCheck,
     }
 }

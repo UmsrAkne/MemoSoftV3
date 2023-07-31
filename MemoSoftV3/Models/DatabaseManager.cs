@@ -21,7 +21,7 @@ namespace MemoSoftV3.Models
                 // コメントがいずれかのグループに所属しているのに、参照先のグループが存在しない場合は処理を中断する。
                 return;
             }
-            
+
             DataSource.Add(cm);
             DataSource.Add(new DatabaseAction(cm, Kind.Add));
         }
@@ -144,6 +144,52 @@ namespace MemoSoftV3.Models
                     tm => tm.CommentId,
                     (c, _) => c)
                 .ToList();
+        }
+
+        public List<Comment> InjectCommentProperties(IEnumerable<Comment> comments)
+        {
+            return comments
+                .Join(
+                    DataSource.GetActions().Where(a => a.Kind == Kind.Add && a.Target == Target.Comment),
+                    c => c.Id,
+                    a => a.TargetId,
+                    (c, a) =>
+                    {
+                        c.DateTime = a.DateTime;
+                        return c;
+                    })
+                .Join(
+                    DataSource.GetGroups(),
+                    c => c.GroupId,
+                    g => g.Id,
+                    (c, g) =>
+                    {
+                        c.GroupName = g.Name;
+                        return c;
+                    })
+                .GroupJoin(
+                    DataSource.GetSubComments(),
+                    c => c.Id,
+                    sc => sc.ParentCommentId,
+                    (c, scs) =>
+                    {
+                        c.SubComments = scs.ToList();
+                        return c;
+                    })
+                .GroupJoin(
+                    DataSource.GetTagMaps(),
+                    c => c.Id,
+                    t => t.CommentId,
+                    (c, ts) =>
+                    {
+                        c.Tags = ts.Join(
+                            DataSource.GetTags(),
+                            tm => tm.TagId,
+                            t => t.Id,
+                            (_, t) => t).ToList();
+
+                        return c;
+                    }).ToList();
         }
     }
 }

@@ -53,6 +53,7 @@ namespace MemoSoftV3Tests.Models
 
         public void Add(SubComment cm)
         {
+            SubComments.Add(cm);
         }
 
         public void Add(Tag tag)
