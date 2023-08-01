@@ -39,6 +39,7 @@
                 DockPanel.Dock="Right"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
+                ItemContainerStyle="{StaticResource ListViewItemContainerStyle}"
                 ItemTemplate="{StaticResource CommentListDataTemplate}"
                 ItemsSource="{Binding Comments}" />
         </DockPanel>
