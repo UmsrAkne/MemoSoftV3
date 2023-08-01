@@ -15,5 +15,10 @@ namespace MemoSoftV3.Models
 
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
+
+        public override string ToString()
+        {
+            return $"#{Name}";
+        }
     }
 }
