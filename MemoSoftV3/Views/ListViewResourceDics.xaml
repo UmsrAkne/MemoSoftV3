@@ -43,7 +43,7 @@
                 </CheckBox>
 
                 <TextBlock Grid.Column="1" Text="{Binding Text}" />
-                <TextBlock Grid.Column="2" Text="{Binding DateTime}" />
+                <TextBlock Grid.Column="2" Text="{Binding DateTime, Converter={StaticResource DateTimeConverter}}" />
             </Grid>
 
         </Border>
