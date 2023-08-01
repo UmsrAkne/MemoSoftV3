@@ -27,7 +27,20 @@
                 <CheckBox
                     Grid.Column="0"
                     Margin="4,0,8,0"
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center">
+                    <CheckBox.Style>
+                        <Style TargetType="CheckBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsCheckable}" Value="false">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsCheckable}" Value="true">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
 
                 <TextBlock Grid.Column="1" Text="{Binding Text}" />
                 <TextBlock Grid.Column="2" Text="{Binding DateTime}" />
