@@ -13,6 +13,14 @@
     xmlns:viewModels="clr-namespace:MemoSoftV3.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ListViewResourceDics.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -30,6 +38,8 @@
             <ListView
                 DockPanel.Dock="Right"
                 HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                ItemTemplate="{StaticResource CommentListDataTemplate}"
                 ItemsSource="{Binding Comments}" />
         </DockPanel>
 
