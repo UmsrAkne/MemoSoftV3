@@ -41,7 +41,8 @@
                 HorizontalContentAlignment="Stretch"
                 ItemContainerStyle="{StaticResource ListViewItemContainerStyle}"
                 ItemTemplate="{StaticResource CommentListDataTemplate}"
-                ItemsSource="{Binding Comments}" />
+                ItemsSource="{Binding Comments}"
+                Padding="2" />
         </DockPanel>
 
         <StatusBar Grid.Row="2" />
