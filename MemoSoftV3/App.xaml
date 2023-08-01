@@ -1,7 +1,14 @@
 ﻿<prism:PrismApplication
     x:Class="MemoSoftV3.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:converters="clr-namespace:MemoSoftV3.Models.Converters"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Application.Resources />
+    <Application.Resources>
+        <system:Double x:Key="BasicFontSize">14.0</system:Double>
+        <SolidColorBrush Color="#222222" x:Key="DarkBgBrush" />
+        <SolidColorBrush Color="#444444" x:Key="MiddleDarkBgBrush" />
+        <converters:DateTimeConverter x:Key="DateTimeConverter" />
+    </Application.Resources>
 </prism:PrismApplication>
