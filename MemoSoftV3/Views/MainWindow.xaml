@@ -1,7 +1,7 @@
 ﻿<Window
-    Height="350"
+    Height="600"
     Title="{Binding Title}"
-    Width="525"
+    Width="1024"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     mc:Ignorable="d"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -14,6 +14,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="File" />
+        </Menu>
+
+        <DockPanel Grid.Row="1">
+            <ListView DockPanel.Dock="Left" Width="100" />
+
+            <ListView
+                DockPanel.Dock="Right"
+                HorizontalAlignment="Stretch"
+                ItemsSource="{Binding Comments}" />
+        </DockPanel>
+
+        <StatusBar Grid.Row="2" />
     </Grid>
 </Window>
