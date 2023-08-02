@@ -162,11 +162,23 @@
             <!--  SubComment の表示部分  -->
 
             <ListView
+                Background="Transparent"
                 BorderThickness="0"
                 ItemContainerStyle="{StaticResource ListViewItemContainerStyle}"
                 ItemTemplate="{StaticResource SubCommentListDataTemplate}"
                 ItemsSource="{Binding SubComments}"
-                Padding="20,0,0,0" />
+                Padding="20,0,0,0">
+
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SubComments.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
+            </ListView>
 
         </StackPanel>
     </DataTemplate>
