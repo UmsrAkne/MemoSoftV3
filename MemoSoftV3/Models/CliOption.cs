@@ -16,7 +16,6 @@ namespace MemoSoftV3.Models
         [Option(
                 'c',
                 "checkable",
-                Default = true,
                 Required = false,
                 HelpText = "チェック可能なコメントを生成します。"),
         ]
@@ -25,7 +24,6 @@ namespace MemoSoftV3.Models
         [Option(
                 'f',
                 "favorite",
-                Default = true,
                 Required = false,
                 HelpText = "お気に入りのコメントを生成します。"),
         ]
