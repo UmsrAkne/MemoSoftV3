@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using CommandLine;
 
 namespace MemoSoftV3.Models
@@ -52,6 +53,16 @@ namespace MemoSoftV3.Models
             }
 
             return opt;
+        }
+
+        /// <summary>
+        ///     入力された文字列がコマンドかどうかを判定します。
+        /// </summary>
+        /// <param name="commandText">コマンドのテキスト</param>
+        /// <returns>コマンドかどうかを返します。</returns>
+        public bool IsCommand(string commandText)
+        {
+            return Regex.IsMatch(commandText, " -(g|c|f|t).*( |$)");
         }
     }
 }

@@ -34,5 +34,25 @@ namespace MemoSoftV3Tests.Models
             Assert.AreEqual("ccc", a.Tags.ToList()[1]);
             Assert.AreEqual("test Group", a.GroupName);
         }
+
+        [Test]
+        public void IsCommandTest()
+        {
+            var parser = new CliParser();
+            Assert.Multiple(() =>
+            {
+                Assert.That(parser.IsCommand("text -t test"), Is.True);
+                Assert.That(parser.IsCommand("text -tag test"), Is.True);
+                Assert.That(parser.IsCommand("text -g test"), Is.True);
+                Assert.That(parser.IsCommand("text -group test"), Is.True);
+                Assert.That(parser.IsCommand("text -group test"), Is.True);
+                Assert.That(parser.IsCommand("text -f"), Is.True);
+                Assert.That(parser.IsCommand("text -favorite"), Is.True);
+
+                Assert.That(parser.IsCommand("text"), Is.False);
+                Assert.That(parser.IsCommand("text -"), Is.False);
+                Assert.That(parser.IsCommand(string.Empty), Is.False);
+            });
+        }
     }
 }
