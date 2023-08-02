@@ -22,10 +22,37 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="LightBlue" />
+                <Setter Property="Background" Value="LightCyan" />
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="LightGreen" />
+                <Setter Property="Background" Value="PaleGreen" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="ListViewItem" x:Key="SubCommentListViewItemContainerStyle">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="DodgerBlue"
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Margin="0,2"
+                        Padding="3">
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="LightSkyBlue" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="LimeGreen" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -164,7 +191,7 @@
             <ListView
                 Background="Transparent"
                 BorderThickness="0"
-                ItemContainerStyle="{StaticResource ListViewItemContainerStyle}"
+                ItemContainerStyle="{StaticResource SubCommentListViewItemContainerStyle}"
                 ItemTemplate="{StaticResource SubCommentListDataTemplate}"
                 ItemsSource="{Binding SubComments}"
                 Padding="20,0,0,0">
