@@ -7,6 +7,8 @@ namespace MemoSoftV3.Models
 {
     public class CliParser
     {
+        private static string commandPattern = " -(g|c|f|t).*( |$)";
+
         public List<string> SplitArg(string arg)
         {
             var sp1 = arg.Split('"');
@@ -62,7 +64,19 @@ namespace MemoSoftV3.Models
         /// <returns>コマンドかどうかを返します。</returns>
         public bool IsCommand(string commandText)
         {
-            return Regex.IsMatch(commandText, " -(g|c|f|t).*( |$)");
+            return Regex.IsMatch(commandText, commandPattern);
+        }
+
+        public string GetArgsString(string commandText)
+        {
+            var m = Regex.Match(commandText, commandPattern);
+            return commandText.Substring(m.Index + 1); // +1 は冒頭の半角スペースの除外分
+        }
+
+        public string GetCommentWithoutArgs(string commandText)
+        {
+            var m = Regex.Match(commandText, commandPattern);
+            return m.Index >= 0 ? commandText[..m.Index] : commandText;
         }
     }
 }

@@ -54,5 +54,16 @@ namespace MemoSoftV3Tests.Models
                 Assert.That(parser.IsCommand(string.Empty), Is.False);
             });
         }
+
+        [Test]
+        public void GetArgsStringTest()
+        {
+            var parser = new CliParser();
+            Assert.Multiple(() =>
+            {
+                Assert.That(parser.GetArgsString("text -t test"), Is.EqualTo("-t test"));
+                Assert.That(parser.GetArgsString("text -tag test"), Is.EqualTo("-tag test"));
+            });
+        }
     }
 }
