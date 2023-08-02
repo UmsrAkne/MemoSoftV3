@@ -8,7 +8,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <Border Background="{TemplateBinding Background}" Margin="0,2">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="SteelBlue"
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Margin="0,2"
+                        Padding="3">
                         <ContentPresenter />
                     </Border>
                 </ControlTemplate>
@@ -28,8 +34,6 @@
         <DockPanel>
             <Border
                 BorderBrush="DarkGray"
-                BorderThickness="1"
-                CornerRadius="3"
                 DockPanel.Dock="Right"
                 Padding="3">
 
@@ -79,12 +83,7 @@
 
             <!--  親コメントの表示部分  -->
 
-            <Border
-                BorderBrush="SlateGray"
-                BorderThickness="1"
-                CornerRadius="3"
-                Margin="0,2"
-                Padding="3">
+            <Border BorderBrush="SlateGray">
 
                 <Grid>
                     <Grid.Resources>
