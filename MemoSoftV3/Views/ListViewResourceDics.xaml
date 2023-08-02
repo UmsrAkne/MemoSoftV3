@@ -8,7 +8,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <Border Background="{TemplateBinding Background}" Margin="0,2">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="SteelBlue"
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Margin="0,2"
+                        Padding="3">
                         <ContentPresenter />
                     </Border>
                 </ControlTemplate>
@@ -16,10 +22,37 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="LightBlue" />
+                <Setter Property="Background" Value="LightCyan" />
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="LightGreen" />
+                <Setter Property="Background" Value="PaleGreen" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="ListViewItem" x:Key="SubCommentListViewItemContainerStyle">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="DodgerBlue"
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Margin="0,2"
+                        Padding="3">
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="LightSkyBlue" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="LimeGreen" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -28,8 +61,6 @@
         <DockPanel>
             <Border
                 BorderBrush="DarkGray"
-                BorderThickness="1"
-                CornerRadius="3"
                 DockPanel.Dock="Right"
                 Padding="3">
 
@@ -79,12 +110,7 @@
 
             <!--  親コメントの表示部分  -->
 
-            <Border
-                BorderBrush="SlateGray"
-                BorderThickness="1"
-                CornerRadius="3"
-                Margin="0,2"
-                Padding="3">
+            <Border BorderBrush="SlateGray">
 
                 <Grid>
                     <Grid.Resources>
@@ -163,11 +189,23 @@
             <!--  SubComment の表示部分  -->
 
             <ListView
+                Background="Transparent"
                 BorderThickness="0"
-                ItemContainerStyle="{StaticResource ListViewItemContainerStyle}"
+                ItemContainerStyle="{StaticResource SubCommentListViewItemContainerStyle}"
                 ItemTemplate="{StaticResource SubCommentListDataTemplate}"
                 ItemsSource="{Binding SubComments}"
-                Padding="20,0,0,0" />
+                Padding="20,0,0,0">
+
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SubComments.Count}" Value="0">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
+            </ListView>
 
         </StackPanel>
     </DataTemplate>
