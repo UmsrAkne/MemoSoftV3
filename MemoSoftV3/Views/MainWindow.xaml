@@ -33,6 +33,26 @@
         </Menu>
 
         <DockPanel Grid.Row="1">
+
+            <StackPanel DockPanel.Dock="Top" Margin="3">
+                <TextBox
+                    AcceptsReturn="True"
+                    FontSize="{StaticResource BasicFontSize}"
+                    MinLines="2"
+                    Padding="2"
+                    Text="{Binding CommandText, UpdateSourceTrigger=PropertyChanged}"
+                    x:Name="CommandTextBox">
+
+                    <TextBox.InputBindings>
+                        <KeyBinding
+                            Command="{Binding CommandExecutionCommand}"
+                            Key="Enter"
+                            Modifiers="Control" />
+                    </TextBox.InputBindings>
+                </TextBox>
+
+            </StackPanel>
+
             <ListView DockPanel.Dock="Left" Width="100" />
 
             <ListView

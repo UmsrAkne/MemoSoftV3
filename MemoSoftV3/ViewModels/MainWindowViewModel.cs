@@ -9,6 +9,8 @@ namespace MemoSoftV3.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private string title = "Prism Application";
+        private string commandText = string.Empty;
+        private ObservableCollection<Comment> comments;
 
         public MainWindowViewModel()
         {
@@ -17,7 +19,25 @@ namespace MemoSoftV3.ViewModels
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
-        public ObservableCollection<Comment> Comments { get; private set; }
+        public string CommandText { get => commandText; set => SetProperty(ref commandText, value); }
+
+        public ObservableCollection<Comment> Comments
+        {
+            get => comments;
+            private set => SetProperty(ref comments, value);
+        }
+
+        public DelegateCommand CommandExecutionCommand => new (() =>
+        {
+            var comment = new Comment
+            {
+                Text = CommandText,
+            };
+
+            CommandText = string.Empty;
+            DatabaseManager.Add(comment);
+            LoadCommand.Execute();
+        });
 
         private DatabaseManager DatabaseManager { get; set; }
 
