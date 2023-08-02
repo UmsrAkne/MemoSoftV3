@@ -33,6 +33,16 @@
         </Menu>
 
         <DockPanel Grid.Row="1">
+
+            <StackPanel DockPanel.Dock="Top" Margin="3">
+                <TextBox
+                    AcceptsReturn="True"
+                    FontSize="{StaticResource BasicFontSize}"
+                    MinLines="2"
+                    Padding="2"
+                    x:Name="CommandTextBox" />
+            </StackPanel>
+
             <ListView DockPanel.Dock="Left" Width="100" />
 
             <ListView
