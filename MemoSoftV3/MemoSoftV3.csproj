@@ -5,6 +5,7 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="CommandLineParser" Version="2.9.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0-preview.6.23329.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.0-preview.6.23329.4" />
         <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
