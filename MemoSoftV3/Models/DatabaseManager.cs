@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MemoSoftV3.Models
@@ -173,7 +174,32 @@ namespace MemoSoftV3.Models
                     sc => sc.ParentCommentId,
                     (c, scs) =>
                     {
-                        c.SubComments = scs.ToList();
+                        c.SubComments = scs.Join(
+                            DataSource.GetActions().Where(a => a.Kind == Kind.Add && a.Target == Target.SubComment),
+                            s => s.Id,
+                            a => a.TargetId,
+                            (s, a) =>
+                            {
+                                s.DateTime = a.DateTime;
+                                return s;
+                            }).ToList();
+
+                        if (c.SubComments.Count(sc => sc.TimeTracking) >= 2)
+                        {
+                            var dt = DateTime.MinValue;
+                            foreach (var subComment in c.SubComments.Where(sc => sc.TimeTracking))
+                            {
+                                if (dt == DateTime.MinValue)
+                                {
+                                    dt = subComment.DateTime;
+                                    continue;
+                                }
+
+                                subComment.WorkingTimeSpan = subComment.DateTime - dt;
+                                dt = subComment.DateTime;
+                            }
+                        }
+
                         return c;
                     })
                 .GroupJoin(

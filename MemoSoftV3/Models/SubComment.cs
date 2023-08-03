@@ -26,6 +26,9 @@ namespace MemoSoftV3.Models
         public bool TimeTracking { get; set; }
 
         [NotMapped]
+        public TimeSpan WorkingTimeSpan { get; set; } = TimeSpan.Zero;
+
+        [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
     }
 }
