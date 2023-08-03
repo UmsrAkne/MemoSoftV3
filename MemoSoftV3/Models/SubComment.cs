@@ -22,6 +22,9 @@ namespace MemoSoftV3.Models
         [Required]
         public bool Checked { get; set; }
 
+        [Required]
+        public bool TimeTracking { get; set; }
+
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
     }
