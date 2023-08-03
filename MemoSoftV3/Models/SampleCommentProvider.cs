@@ -67,9 +67,18 @@ namespace MemoSoftV3.Models
 
                     SubComments = new List<SubComment>()
                     {
-                        new () { ParentCommentId = 4, Text = "subComment1", IsCheckable = true, },
+                        new ()
+                        {
+                            ParentCommentId = 4, Text = "subComment1", IsCheckable = true,
+                            TimeTracking = true,
+                        },
                         new () { ParentCommentId = 4, Text = "subComment2", IsCheckable = false, },
-                        new () { ParentCommentId = 4, Text = "subComment3", IsCheckable = true, },
+                        new ()
+                        {
+                            ParentCommentId = 4, Text = "subComment3", IsCheckable = true,
+                            TimeTracking = true,
+                            WorkingTimeSpan = TimeSpan.FromMinutes(10),
+                        },
                     },
                 },
 
