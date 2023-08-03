@@ -43,6 +43,33 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="ListBoxItem" x:Key="TagListBoxItemContainerStyle">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Border
+                        BorderBrush="DimGray"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Margin="3,0"
+                        Padding="3,1"
+                        x:Name="Border">
+
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="LightPink" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <DataTemplate DataType="{x:Type models:SubComment}" x:Key="SubCommentListDataTemplate">
         <DockPanel>
             <Border
@@ -217,6 +244,7 @@
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Grid.Row="1"
+                        ItemContainerStyle="{StaticResource TagListBoxItemContainerStyle}"
                         ItemsSource="{Binding Tags}">
                         <ListBox.ItemTemplate>
 
