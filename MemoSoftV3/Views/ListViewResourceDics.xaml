@@ -8,26 +8,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <Border
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="SteelBlue"
-                        BorderThickness="1"
-                        CornerRadius="3"
-                        Margin="0,2"
-                        Padding="3">
+                    <Border Margin="0,3">
                         <ContentPresenter />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="LightCyan" />
-            </Trigger>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="PaleGreen" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <Style TargetType="ListViewItem" x:Key="SubCommentListViewItemContainerStyle">
@@ -56,6 +42,33 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style TargetType="ListBoxItem" x:Key="TagListBoxItemContainerStyle">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Border
+                        BorderBrush="DimGray"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Margin="3,0"
+                        Padding="3,1"
+                        x:Name="Border">
+
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="LightPink" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <DataTemplate DataType="{x:Type models:SubComment}" x:Key="SubCommentListDataTemplate">
         <DockPanel>
@@ -110,7 +123,26 @@
 
             <!--  親コメントの表示部分  -->
 
-            <Border BorderBrush="SlateGray">
+            <Border
+                BorderBrush="SlateGray"
+                BorderThickness="1"
+                CornerRadius="3"
+                Margin="0,2"
+                Padding="3">
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="LightCyan" />
+                            </Trigger>
+
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}, Path=IsSelected}" Value="True">
+                                <Setter Property="Background" Value="PaleGreen" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
                 <Grid>
                     <Grid.Resources>
@@ -131,23 +163,70 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <CheckBox
-                        Grid.Column="0"
-                        Margin="4,0,8,0"
-                        VerticalAlignment="Center">
-                        <CheckBox.Style>
-                            <Style TargetType="CheckBox">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCheckable}" Value="false">
-                                        <Setter Property="Visibility" Value="Hidden" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsCheckable}" Value="true">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </CheckBox.Style>
-                    </CheckBox>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+
+                        <ToggleButton
+                            BorderThickness="0"
+                            IsChecked="{Binding IsFavorite}"
+                            x:Name="FavoriteButton">
+
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+
+                                    <Border
+                                        BorderThickness="1"
+                                        CornerRadius="4"
+                                        Width="35">
+
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                                        <Setter Property="Background" Value="LightPink" />
+                                                        <Setter Property="BorderBrush" Value="HotPink" />
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding IsFavorite}" Value="False">
+                                                        <Setter Property="Background" Value="White" />
+                                                        <Setter Property="BorderBrush" Value="MediumPurple" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
+                                        <TextBlock HorizontalAlignment="Center" Text="Fav">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsFavorite}" Value="False">
+                                                            <Setter Property="Foreground" Value="DarkGray" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+
+                        <CheckBox Margin="4,0,8,0" VerticalAlignment="Center">
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsCheckable}" Value="false">
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsCheckable}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+
+                    </StackPanel>
 
                     <TextBlock
                         Grid.Column="1"
@@ -165,6 +244,7 @@
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Grid.Row="1"
+                        ItemContainerStyle="{StaticResource TagListBoxItemContainerStyle}"
                         ItemsSource="{Binding Tags}">
                         <ListBox.ItemTemplate>
 
