@@ -263,9 +263,17 @@ namespace MemoSoftV3Tests.Models
             manager.Add(new TagMap { Id = 3, TagId = 3, CommentId = 1, });
             manager.Add(new TagMap { Id = 4, TagId = 1, CommentId = 2, });
             manager.Add(new TagMap { Id = 5, TagId = 2, CommentId = 2, });
-            manager.Add(new SubComment() { Id = 1, Text = "subCommentA", ParentCommentId = 1, });
-            manager.Add(new SubComment() { Id = 2, Text = "subCommentB", ParentCommentId = 1, });
+            manager.Add(new SubComment() { Id = 1, Text = "subCommentA", ParentCommentId = 1, TimeTracking = true, });
+            manager.Add(new SubComment() { Id = 2, Text = "subCommentB", ParentCommentId = 1, TimeTracking = true, });
             manager.Add(new SubComment() { Id = 3, Text = "subCommentC", ParentCommentId = 2, });
+
+            source.GetActions()
+                .Where(a => a.Kind == Kind.Add && a.Target == Target.SubComment)
+                .ToList()[0].DateTime = new DateTime(2023, 8, 4, 23, 0, 0);
+
+            source.GetActions()
+                .Where(a => a.Kind == Kind.Add && a.Target == Target.SubComment)
+                .ToList()[1].DateTime = new DateTime(2023, 8, 4, 23, 10, 0);
 
             var comments = manager.SearchComments(new SearchOption());
             comments = manager.InjectCommentProperties(comments);
@@ -279,6 +287,9 @@ namespace MemoSoftV3Tests.Models
             Assert.That(comment2.GroupName, Is.EqualTo("otherGroup"));
             Assert.That(comment2.Tags, Has.Count.EqualTo(2));
             Assert.That(comment2.SubComments, Has.Count.EqualTo(1));
+
+            Assert.That(comment1.SubComments[1].WorkingTimeSpan, Is.EqualTo(TimeSpan.FromMinutes(10)),
+                "設定した時刻から、WorkingTimeSpan は10分間となるはず");
         }
     }
 }
