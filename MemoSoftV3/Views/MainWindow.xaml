@@ -64,7 +64,8 @@
                     <ListView
                         ItemContainerStyle="{StaticResource GroupListViewControlTemplate}"
                         ItemTemplate="{StaticResource GroupListViewDataTemplate}"
-                        ItemsSource="{Binding Groups}" />
+                        ItemsSource="{Binding Groups}"
+                        SelectedItem="{Binding CurrentGroup}" />
                 </TabItem>
 
                 <TabItem Header="Tag" />

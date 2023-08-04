@@ -124,7 +124,7 @@ namespace MemoSoftV3.Models
                 }).ToList();
             }
 
-            DataSource.Add(comment);
+            Add(comment);
         }
 
         public List<Comment> SearchComments(SearchOption option)

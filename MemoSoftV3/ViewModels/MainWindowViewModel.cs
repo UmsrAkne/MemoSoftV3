@@ -12,6 +12,7 @@ namespace MemoSoftV3.ViewModels
         private string commandText = string.Empty;
         private ObservableCollection<Comment> comments;
         private ObservableCollection<Group> groups;
+        private Group currentGroup;
 
         public MainWindowViewModel()
         {
@@ -21,6 +22,24 @@ namespace MemoSoftV3.ViewModels
         public string Title { get => title; set => SetProperty(ref title, value); }
 
         public string CommandText { get => commandText; set => SetProperty(ref commandText, value); }
+
+        public Group CurrentGroup
+        {
+            get => currentGroup;
+            set
+            {
+                if (value != null && !string.IsNullOrEmpty(value.Name))
+                {
+                    Comments = new ObservableCollection<Comment>(
+                        DatabaseManager.SearchComments(new SearchOption
+                        {
+                            GroupName = value.Name,
+                        }));
+                }
+
+                SetProperty(ref currentGroup, value);
+            }
+        }
 
         public ObservableCollection<Comment> Comments
         {
