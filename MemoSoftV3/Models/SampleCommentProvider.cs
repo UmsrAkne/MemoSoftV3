@@ -98,6 +98,55 @@ namespace MemoSoftV3.Models
                         new () { ParentCommentId = 4, Text = "subComment3", IsCheckable = true, },
                     },
                 },
+
+                new ()
+                {
+                    Id = 6,
+                    GroupId = 1,
+                    Text = "test Text6",
+                    IsFavorite = false,
+                    IsCheckable = false,
+                    Checked = false,
+                    DateTime = DateTime.Now,
+                    Tags = new List<Tag>(),
+                    SubComments = new List<SubComment>(),
+                },
+
+                new ()
+                {
+                    Id = 7,
+                    GroupId = 1,
+                    Text = "test Text7",
+                    IsFavorite = false,
+                    IsCheckable = false,
+                    Checked = false,
+                    DateTime = DateTime.Now,
+                    Tags = new List<Tag>(),
+                    SubComments = new List<SubComment>(),
+                },
+
+                new ()
+                {
+                    Id = 8,
+                    GroupId = 2,
+                    Text = "test Text8",
+                    IsFavorite = false,
+                    IsCheckable = false,
+                    Checked = false,
+                    DateTime = DateTime.Now,
+                    Tags = new List<Tag>(),
+                    SubComments = new List<SubComment>(),
+                },
+            };
+        }
+
+        public static List<Group> GetSampleGroups()
+        {
+            return new List<Group>()
+            {
+                new () { Id = 1, Name = "Sample Group 1", },
+                new () { Id = 2, Name = "Sample Group 2", },
+                new () { Id = 3, Name = "Sample Group 3", },
             };
         }
     }

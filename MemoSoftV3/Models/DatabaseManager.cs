@@ -217,5 +217,12 @@ namespace MemoSoftV3.Models
                         return c;
                     }).ToList();
         }
+
+        public List<Group> GetGroups(SearchOption searchOption)
+        {
+            return string.IsNullOrEmpty(searchOption.GroupName)
+                ? DataSource.GetGroups().ToList()
+                : DataSource.GetGroups().Where(g => g.Name.Contains(searchOption.GroupName)).ToList();
+        }
     }
 }

@@ -353,4 +353,38 @@
         </StackPanel>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type models:Group}" x:Key="GroupListViewDataTemplate">
+        <TextBlock
+            FontSize="{StaticResource BasicFontSize}"
+            Padding="4,0"
+            Text="{Binding Name}" />
+    </DataTemplate>
+
+    <Style TargetType="ListViewItem" x:Key="GroupListViewControlTemplate">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        x:Name="Border">
+                        <ContentPresenter />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="LightCyan" />
+                            <Setter Property="BorderBrush" TargetName="Border" Value="SkyBlue" />
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="LightSkyBlue" />
+                            <Setter Property="BorderBrush" TargetName="Border" Value="SkyBlue" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
