@@ -11,6 +11,7 @@ namespace MemoSoftV3.ViewModels
         private string title = "Prism Application";
         private string commandText = string.Empty;
         private ObservableCollection<Comment> comments;
+        private ObservableCollection<Group> groups;
 
         public MainWindowViewModel()
         {
@@ -26,6 +27,8 @@ namespace MemoSoftV3.ViewModels
             get => comments;
             private set => SetProperty(ref comments, value);
         }
+
+        public ObservableCollection<Group> Groups { get => groups; private set => SetProperty(ref groups, value); }
 
         public DelegateCommand CommandExecutionCommand => new (() =>
         {
@@ -50,6 +53,7 @@ namespace MemoSoftV3.ViewModels
                 DatabaseManager = new DatabaseManager(dbContext);
             }
 
+            Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(new SearchOption()));
             Comments = new ObservableCollection<Comment>(DatabaseManager.SearchComments(new SearchOption()));
         });
     }
