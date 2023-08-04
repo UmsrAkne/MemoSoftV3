@@ -32,13 +32,12 @@ namespace MemoSoftV3.ViewModels
 
         public DelegateCommand CommandExecutionCommand => new (() =>
         {
-            var comment = new Comment
-            {
-                Text = CommandText,
-            };
-
+            var parser = new CliParser();
+            var cmWa = parser.GetCommentWithoutArgs(CommandText);
+            var option = parser.Parse(parser.GetArgsString(CommandText));
+            DatabaseManager.ExecuteCli(cmWa, option);
+            
             CommandText = string.Empty;
-            DatabaseManager.Add(comment);
             LoadCommand.Execute();
         });
 

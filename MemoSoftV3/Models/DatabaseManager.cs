@@ -92,6 +92,41 @@ namespace MemoSoftV3.Models
             DataSource.Add(new DatabaseAction(group, Kind.Add));
         }
 
+        public void ExecuteCli(string text, CliOption cliOption)
+        {
+            var comment = new Comment
+            {
+                IsFavorite = cliOption.IsFavorite,
+                IsCheckable = cliOption.Checkable,
+                Text = text,
+            };
+
+            if (!string.IsNullOrEmpty(cliOption.GroupName))
+            {
+                // cliOption で指定されているグループをコメントに入力。存在しない場合は新規作成
+                var group = DataSource.GetGroups().FirstOrDefault(g => g.Name == cliOption.GroupName);
+                if (group == null)
+                {
+                    group = new Group { Name = cliOption.GroupName, };
+                    DataSource.Add(group);
+                }
+
+                comment.GroupId = group.Id;
+            }
+
+            if (cliOption.Tags.Any())
+            {
+                // cliOption の指定タグを入力。存在しない場合は新規追加
+                comment.Tags = cliOption.Tags.Select(ts =>
+                {
+                    var tag = DataSource.GetTags().SingleOrDefault(t => t.Name == ts);
+                    return tag ?? new Tag { Name = ts, };
+                }).ToList();
+            }
+
+            DataSource.Add(comment);
+        }
+
         public List<Comment> SearchComments(SearchOption option)
         {
             if (option.IsDefault)
