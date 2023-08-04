@@ -54,14 +54,17 @@
             </StackPanel>
 
 
-            <TabControl DockPanel.Dock="Left" Width="150">
+            <TabControl DockPanel.Dock="Left">
                 <TabControl.Resources>
                     <Style TargetType="TabItem">
                         <Setter Property="Padding" Value="20,0" />
                     </Style>
                 </TabControl.Resources>
                 <TabItem Header="Group">
-                    <ListView ItemsSource="{Binding Groups}" />
+                    <ListView
+                        ItemContainerStyle="{StaticResource GroupListViewControlTemplate}"
+                        ItemTemplate="{StaticResource GroupListViewDataTemplate}"
+                        ItemsSource="{Binding Groups}" />
                 </TabItem>
 
                 <TabItem Header="Tag" />
