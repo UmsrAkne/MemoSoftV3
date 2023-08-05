@@ -30,11 +30,14 @@ namespace MemoSoftV3.ViewModels
             {
                 if (value != null && !string.IsNullOrEmpty(value.Name))
                 {
-                    Comments = new ObservableCollection<Comment>(
-                        DatabaseManager.SearchComments(new SearchOption
-                        {
-                            GroupName = value.Name,
-                        }));
+                    Comments = value.IsSmartGroup
+                        ? new ObservableCollection<Comment>(
+                            DatabaseManager.SearchComments(new SearchOption()))
+                        : new ObservableCollection<Comment>(
+                            DatabaseManager.SearchComments(new SearchOption
+                            {
+                                GroupName = value.Name,
+                            }));
                 }
 
                 SetProperty(ref currentGroup, value);
@@ -69,6 +72,11 @@ namespace MemoSoftV3.ViewModels
                 var dbContext = new DatabaseContext();
                 dbContext.Database.EnsureCreated();
                 DatabaseManager = new DatabaseManager(dbContext);
+
+                if (DatabaseManager.GetGroups(new SearchOption()).Count == 0)
+                {
+                    DatabaseManager.Add(new Group { Name = "All", IsSmartGroup = true, });
+                }
             }
 
             Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(new SearchOption()));

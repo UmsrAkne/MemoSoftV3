@@ -16,10 +16,11 @@ namespace MemoSoftV3.Models
         public void Add(Comment cm)
         {
             var belongToGroup = cm.GroupId != 0;
-            var existsReferenceGroup = DataSource.GetGroups().Any(g => g.Id == cm.GroupId);
-            if (belongToGroup && !existsReferenceGroup)
+            var targetGroup = DataSource.GetGroups().FirstOrDefault(g => g.Id == cm.GroupId);
+
+            if (belongToGroup && (targetGroup == null || targetGroup.IsSmartGroup))
             {
-                // コメントがいずれかのグループに所属しているのに、参照先のグループが存在しない場合は処理を中断する。
+                // コメントがいずれかのグループに所属しているのに、参照先のグループが存在しないか、スマートグループである場合は処理を中断する。
                 return;
             }
 

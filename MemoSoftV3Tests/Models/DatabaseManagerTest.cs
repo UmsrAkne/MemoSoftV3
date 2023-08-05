@@ -164,6 +164,19 @@ namespace MemoSoftV3Tests.Models
         }
 
         [Test]
+        public void AddComment_スマートグループに所属するコメントの追加()
+        {
+            var source = new DatabaseMock();
+            var comment = new Comment { GroupId = 2, }; // GroupId == 2 はスマートグループ
+
+            var manager = new DatabaseManager(source);
+            manager.Add(new Group { IsSmartGroup = true, Id = 2, Name = "TestGroup", });
+            manager.Add(comment);
+
+            Assert.That(source.GetComments().Count(), Is.EqualTo(0), "コメントは不正な値のはずなので、追加処理はされていないはず。");
+        }
+
+        [Test]
         public void AddSubComment_存在しない親を指定()
         {
             var source = new DatabaseMock();
