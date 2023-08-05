@@ -13,6 +13,12 @@ namespace MemoSoftV3.Models
         [Required]
         public string Name { get; set; }
 
+        [Required]
+        public bool IsSmartGroup { get; set; }
+
+        [Required]
+        public string Command { get; set; } = string.Empty;
+
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
     }
