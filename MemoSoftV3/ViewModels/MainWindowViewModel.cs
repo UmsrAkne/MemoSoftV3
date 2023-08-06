@@ -1,21 +1,25 @@
 ﻿using System.Collections.ObjectModel;
 using MemoSoftV3.Models;
+using MemoSoftV3.Views;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 
 namespace MemoSoftV3.ViewModels
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class MainWindowViewModel : BindableBase
     {
+        private readonly IDialogService dialogService;
         private string title = "Prism Application";
         private string commandText = string.Empty;
         private ObservableCollection<Comment> comments;
         private ObservableCollection<Group> groups;
         private Group currentGroup;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IDialogService dialogService)
         {
+            this.dialogService = dialogService;
             LoadCommand.Execute();
         }
 
@@ -69,6 +73,23 @@ namespace MemoSoftV3.ViewModels
             
             CommandText = string.Empty;
             LoadCommand.Execute();
+        });
+
+        public DelegateCommand<IDatabaseEntity> ShowEditPageCommand => new (entity =>
+        {
+            var pageName = string.Empty;
+            var paramName = string.Empty;
+
+            if (entity is Group)
+            {
+                pageName = nameof(GroupEditPage);
+                paramName = nameof(Group);
+            }
+
+            dialogService.ShowDialog(
+                pageName, new DialogParameters { { paramName, entity }, }, _ =>
+                {
+                });
         });
 
         private DatabaseManager DatabaseManager { get; set; }

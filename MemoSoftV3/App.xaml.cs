@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MemoSoftV3.ViewModels;
 using MemoSoftV3.Views;
 using Prism.Ioc;
 
@@ -16,6 +17,7 @@ namespace MemoSoftV3
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterDialog<GroupEditPage, GroupEditPageViewModel>();
         }
     }
 }

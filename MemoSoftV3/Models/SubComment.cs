@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MemoSoftV3.Models
 {
-    public class SubComment
+    public class SubComment : IDatabaseEntity
     {
         [Key]
         [Required]

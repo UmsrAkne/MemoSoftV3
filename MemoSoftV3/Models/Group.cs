@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MemoSoftV3.Models
 {
-    public class Group
+    public class Group : IDatabaseEntity
     {
         [Key]
         [Required]
@@ -21,5 +21,8 @@ namespace MemoSoftV3.Models
 
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
+
+        [NotMapped]
+        public bool CanChangeToSmartGroup { get; set; }
     }
 }

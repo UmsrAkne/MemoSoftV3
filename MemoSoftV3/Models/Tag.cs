@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MemoSoftV3.Models
 {
-    public class Tag
+    public class Tag : IDatabaseEntity
     {
         [Key]
         [Required]

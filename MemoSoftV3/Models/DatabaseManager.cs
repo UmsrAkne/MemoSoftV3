@@ -256,9 +256,15 @@ namespace MemoSoftV3.Models
 
         public List<Group> GetGroups(SearchOption searchOption)
         {
+            var enumerable = DataSource.GetGroups().ToList();
+            foreach (var group in enumerable)
+            {
+                group.CanChangeToSmartGroup = DataSource.GetComments().All(c => c.GroupId != group.Id);
+            }
+
             return string.IsNullOrEmpty(searchOption.GroupName)
-                ? DataSource.GetGroups().ToList()
-                : DataSource.GetGroups().Where(g => g.Name.Contains(searchOption.GroupName)).ToList();
+                ? enumerable.ToList()
+                : enumerable.Where(g => g.Name.Contains(searchOption.GroupName)).ToList();
         }
     }
 }
