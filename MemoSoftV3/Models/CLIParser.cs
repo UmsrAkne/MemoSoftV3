@@ -57,6 +57,33 @@ namespace MemoSoftV3.Models
             return opt;
         }
 
+        public SearchCliOption ParseSearchCommand(string argString)
+        {
+            var args = SplitArg(argString);
+            var parseResult = Parser.Default.ParseArguments<SearchCliOption>(args);
+
+            var opt = new SearchCliOption();
+
+            switch (parseResult.Tag)
+            {
+                // パース成功
+                case ParserResultType.Parsed:
+                    if (parseResult is Parsed<SearchCliOption> parsed)
+                    {
+                        opt = parsed.Value;
+                        opt.Tags = opt.Tags.Select(s => s.Replace(",", string.Empty));
+                    }
+
+                    break;
+
+                // パース失敗
+                case ParserResultType.NotParsed:
+                    break;
+            }
+
+            return opt;
+        }
+        
         /// <summary>
         ///     入力された文字列がコマンドかどうかを判定します。
         /// </summary>
