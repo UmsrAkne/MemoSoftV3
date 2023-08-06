@@ -21,5 +21,8 @@ namespace MemoSoftV3.Models
 
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
+
+        [NotMapped]
+        public bool CanChangeToSmartGroup { get; set; }
     }
 }
