@@ -65,5 +65,17 @@ namespace MemoSoftV3Tests.Models
                 Assert.That(parser.GetArgsString("text -tag test"), Is.EqualTo("-tag test"));
             });
         }
+
+        [Test]
+        public void SearchCliParserTest()
+        {
+            var parser = new CliParser();
+            var option = parser.ParseSearchCommand("search --text test -g testGroup -t testTag,tag2");
+
+            Assert.That(option.Text, Is.EqualTo("test"));
+            Assert.That(option.GroupNames.ToList()[0], Is.EqualTo("testGroup"));
+            Assert.That(option.Tags.ToList()[0], Is.EqualTo("testTag"));
+            Assert.That(option.Tags.ToList()[1], Is.EqualTo("tag2"));
+        }
     }
 }

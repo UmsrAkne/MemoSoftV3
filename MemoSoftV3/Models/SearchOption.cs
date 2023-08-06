@@ -6,6 +6,23 @@ namespace MemoSoftV3.Models
 {
     public class SearchOption
     {
+        public SearchOption()
+        {
+        }
+
+        public SearchOption(SearchCliOption option)
+        {
+            if (!string.IsNullOrEmpty(option.Text))
+            {
+                Text = option.Text;
+            }
+
+            if (option.Tags.Any(t => !string.IsNullOrEmpty(t)))
+            {
+                TagTexts = option.Tags.ToList();
+            }
+        }
+        
         public string Text { get; set; } = string.Empty;
 
         public DateTime StartDateTime { get; set; } = new (0);
