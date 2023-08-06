@@ -16,17 +16,40 @@
             <TextBox
                 DockPanel.Dock="Right"
                 Margin="3,0"
-                Text="" />
+                Text="{Binding CurrentGroup.Name}" />
         </DockPanel>
 
         <Border Margin="0,2" />
 
         <DockPanel>
-            <TextBlock DockPanel.Dock="Left" Text="Command : " />
+            <TextBlock DockPanel.Dock="Left" Text="Command : ">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=IsSmartGroup}" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
             <TextBox
                 DockPanel.Dock="Right"
+                IsEnabled="{Binding ElementName=IsSmartGroup, Path=IsChecked}"
                 Margin="3,0"
-                Text="" />
+                Text="{Binding CurrentGroup.Command}" />
+        </DockPanel>
+
+        <Border Margin="0,2" />
+
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Left" Text="Smart Group : " />
+            <CheckBox
+                IsChecked="{Binding CurrentGroup.IsSmartGroup}"
+                Margin="4,2,0,0"
+                VerticalAlignment="Center"
+                x:Name="IsSmartGroup" />
         </DockPanel>
 
         <Border Margin="0,8" />
