@@ -30,14 +30,22 @@ namespace MemoSoftV3.ViewModels
             {
                 if (value != null && !string.IsNullOrEmpty(value.Name))
                 {
-                    Comments = value.IsSmartGroup
-                        ? new ObservableCollection<Comment>(
-                            DatabaseManager.SearchComments(new SearchOption()))
-                        : new ObservableCollection<Comment>(
+                    if (value.IsSmartGroup)
+                    {
+                        var parser = new CliParser();
+                        var option = parser.ParseSearchCommand(value.Command);
+
+                        Comments = new ObservableCollection<Comment>(
+                            DatabaseManager.SearchComments(new SearchOption(option)));
+                    }
+                    else
+                    {
+                        Comments = new ObservableCollection<Comment>(
                             DatabaseManager.SearchComments(new SearchOption
                             {
                                 GroupName = value.Name,
                             }));
+                    }
                 }
 
                 SetProperty(ref currentGroup, value);
