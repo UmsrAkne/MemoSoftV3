@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MemoSoftV3.Models
 {
-    public class Group
+    public class Group : IDatabaseEntity
     {
         [Key]
         [Required]
