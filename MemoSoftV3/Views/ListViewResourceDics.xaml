@@ -376,7 +376,7 @@
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseDoubleClick">
-                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.(viewModels:MainWindowViewModel.ShowEditPageCommand)}" />
+                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.(viewModels:MainWindowViewModel.ShowEditPageCommand)}" CommandParameter="{Binding}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ContentControl>

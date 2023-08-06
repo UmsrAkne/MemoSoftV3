@@ -75,10 +75,17 @@ namespace MemoSoftV3.ViewModels
             LoadCommand.Execute();
         });
 
-        public DelegateCommand ShowEditPageCommand => new (() =>
+        public DelegateCommand<IDatabaseEntity> ShowEditPageCommand => new (entity =>
         {
+            var pageName = string.Empty;
+
+            if (entity is Group)
+            {
+                pageName = nameof(GroupEditPage);
+            }
+            
             dialogService.ShowDialog(
-                nameof(GroupEditPage), new DialogParameters(), _ =>
+                pageName, new DialogParameters(), _ =>
                 {
                 });
         });
