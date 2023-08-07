@@ -15,9 +15,12 @@ namespace MemoSoftV3.Models
 
         [Required]
         public string Name { get => name; set => SetProperty(ref name, value); }
-
+        
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
+
+        [NotMapped]
+        public bool Applying { get; set; }
 
         public override string ToString()
         {
