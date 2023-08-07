@@ -68,7 +68,13 @@
                         SelectedItem="{Binding CurrentGroup}" />
                 </TabItem>
 
-                <TabItem Header="Tag" />
+                <TabItem Header="Tag">
+                    <ListView
+                        ItemContainerStyle="{StaticResource GroupListViewControlTemplate}"
+                        ItemTemplate="{StaticResource TagListViewDataTemplate}"
+                        ItemsSource="{Binding Tags}"
+                        SelectedItem="{Binding CurrentTag}" />
+                </TabItem>
             </TabControl>
 
             <ListView

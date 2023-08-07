@@ -1,0 +1,38 @@
+﻿<Page
+    Title="TagEditPage"
+    Width="600"
+    d:DataContext="{d:DesignInstance viewModels:TagEditPageViewModel}"
+    mc:Ignorable="d"
+    x:Class="MemoSoftV3.Views.TagEditPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:MemoSoftV3.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel Margin="2">
+
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Left" Text="Tag Name : " />
+            <TextBox
+                DockPanel.Dock="Right"
+                Margin="3,0"
+                Text="{Binding CurrentTag.Name, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+
+        <Border Margin="0,2" />
+
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button
+                Command="{Binding SaveAndCloseCommand}"
+                Content="Save"
+                Width="80" />
+
+            <Button
+                Command="{Binding CancelCommand}"
+                Content="Cancel"
+                Margin="10,0"
+                Width="60" />
+        </StackPanel>
+
+    </StackPanel>
+</Page>

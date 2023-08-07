@@ -17,6 +17,8 @@ namespace MemoSoftV3.ViewModels
         private ObservableCollection<Comment> comments;
         private ObservableCollection<Group> groups;
         private Group currentGroup;
+        private Tag currentTag;
+        private ObservableCollection<Tag> tags = new ();
 
         public MainWindowViewModel(IDialogService dialogService)
         {
@@ -57,6 +59,8 @@ namespace MemoSoftV3.ViewModels
             }
         }
 
+        public Tag CurrentTag { get => currentTag; set => SetProperty(ref currentTag, value); }
+
         public ObservableCollection<Comment> Comments
         {
             get => comments;
@@ -64,6 +68,8 @@ namespace MemoSoftV3.ViewModels
         }
 
         public ObservableCollection<Group> Groups { get => groups; private set => SetProperty(ref groups, value); }
+
+        public ObservableCollection<Tag> Tags { get => tags; set => SetProperty(ref tags, value); }
 
         public DelegateCommand CommandExecutionCommand => new (() =>
         {
@@ -81,14 +87,21 @@ namespace MemoSoftV3.ViewModels
             var pageName = string.Empty;
             var paramName = string.Empty;
 
-            if (entity is Group group)
+            switch (entity)
             {
-                group.CanChangeToSmartGroup =
-                    DatabaseManager.SearchComments(new SearchOption())
-                        .All(c => c.GroupId != group.Id);
-                
-                pageName = nameof(GroupEditPage);
-                paramName = nameof(Group);
+                case Group group:
+                    group.CanChangeToSmartGroup =
+                        DatabaseManager.SearchComments(new SearchOption())
+                            .All(c => c.GroupId != group.Id);
+
+                    pageName = nameof(GroupEditPage);
+                    paramName = nameof(Group);
+                    break;
+
+                case Tag:
+                    pageName = nameof(TagEditPage);
+                    paramName = nameof(Tag);
+                    break;
             }
 
             dialogService.ShowDialog(
@@ -114,6 +127,7 @@ namespace MemoSoftV3.ViewModels
             }
 
             Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(new SearchOption()));
+            Tags = new ObservableCollection<Tag>(DatabaseManager.GetTags(new SearchOption()));
             Comments = new ObservableCollection<Comment>(DatabaseManager.SearchComments(new SearchOption()));
         });
     }

@@ -18,6 +18,7 @@ namespace MemoSoftV3
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterDialog<GroupEditPage, GroupEditPageViewModel>();
+            containerRegistry.RegisterDialog<TagEditPage, TagEditPageViewModel>();
         }
     }
 }

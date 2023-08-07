@@ -397,4 +397,15 @@
         </Setter>
     </Style>
 
+    <DataTemplate DataType="{x:Type models:Tag}" x:Key="TagListViewDataTemplate">
+        <StackPanel Orientation="Horizontal">
+
+            <CheckBox IsChecked="{Binding Applying}" Margin="10,2,5,0" />
+            <TextBlock
+                FontSize="{StaticResource BasicFontSize}"
+                Padding="4,0"
+                Text="{Binding Name}" />
+        </StackPanel>
+    </DataTemplate>
+
 </ResourceDictionary>

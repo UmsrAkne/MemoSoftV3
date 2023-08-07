@@ -123,6 +123,12 @@ namespace MemoSoftV3.Models
                     var tag = DataSource.GetTags().SingleOrDefault(t => t.Name == ts);
                     return tag ?? new Tag { Name = ts, };
                 }).ToList();
+
+                foreach (var commentTag in comment.Tags)
+                {
+                    Add(commentTag);
+                    Add(new TagMap { TagId = commentTag.Id, CommentId = comment.Id, });
+                }
             }
 
             Add(comment);
@@ -259,6 +265,19 @@ namespace MemoSoftV3.Models
             return string.IsNullOrEmpty(searchOption.GroupName)
                 ? DataSource.GetGroups().ToList()
                 : DataSource.GetGroups().Where(g => g.Name.Contains(searchOption.GroupName)).ToList();
+        }
+
+        public List<Tag> GetTags(SearchOption searchOption)
+        {
+            if (searchOption.TagTexts.Count == 0)
+            {
+                return DataSource.GetTags().ToList();
+            }
+
+            return DataSource.GetTags()
+                .Where(t => searchOption.TagTexts
+                    .Any(x => x.Contains(t.Name)))
+                .ToList();
         }
     }
 }
