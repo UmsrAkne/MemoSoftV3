@@ -123,6 +123,12 @@ namespace MemoSoftV3.Models
                     var tag = DataSource.GetTags().SingleOrDefault(t => t.Name == ts);
                     return tag ?? new Tag { Name = ts, };
                 }).ToList();
+
+                foreach (var commentTag in comment.Tags)
+                {
+                    Add(commentTag);
+                    Add(new TagMap { TagId = commentTag.Id, CommentId = comment.Id, });
+                }
             }
 
             Add(comment);
