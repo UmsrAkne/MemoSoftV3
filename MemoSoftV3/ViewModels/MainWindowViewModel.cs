@@ -17,6 +17,8 @@ namespace MemoSoftV3.ViewModels
         private ObservableCollection<Comment> comments;
         private ObservableCollection<Group> groups;
         private Group currentGroup;
+        private Tag currentTag;
+        private ObservableCollection<Tag> tags = new ();
 
         public MainWindowViewModel(IDialogService dialogService)
         {
@@ -57,6 +59,8 @@ namespace MemoSoftV3.ViewModels
             }
         }
 
+        public Tag CurrentTag { get => currentTag; set => SetProperty(ref currentTag, value); }
+
         public ObservableCollection<Comment> Comments
         {
             get => comments;
@@ -64,6 +68,8 @@ namespace MemoSoftV3.ViewModels
         }
 
         public ObservableCollection<Group> Groups { get => groups; private set => SetProperty(ref groups, value); }
+
+        public ObservableCollection<Tag> Tags { get => tags; set => SetProperty(ref tags, value); }
 
         public DelegateCommand CommandExecutionCommand => new (() =>
         {
