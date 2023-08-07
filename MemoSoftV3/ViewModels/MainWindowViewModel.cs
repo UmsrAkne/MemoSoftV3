@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using MemoSoftV3.Models;
 using MemoSoftV3.Views;
 using Prism.Commands;
@@ -80,8 +81,12 @@ namespace MemoSoftV3.ViewModels
             var pageName = string.Empty;
             var paramName = string.Empty;
 
-            if (entity is Group)
+            if (entity is Group group)
             {
+                group.CanChangeToSmartGroup =
+                    DatabaseManager.SearchComments(new SearchOption())
+                        .All(c => c.GroupId != group.Id);
+                
                 pageName = nameof(GroupEditPage);
                 paramName = nameof(Group);
             }
