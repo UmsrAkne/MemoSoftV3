@@ -266,5 +266,18 @@ namespace MemoSoftV3.Models
                 ? DataSource.GetGroups().ToList()
                 : DataSource.GetGroups().Where(g => g.Name.Contains(searchOption.GroupName)).ToList();
         }
+
+        public List<Tag> GetTags(SearchOption searchOption)
+        {
+            if (searchOption.TagTexts.Count == 0)
+            {
+                return DataSource.GetTags().ToList();
+            }
+
+            return DataSource.GetTags()
+                .Where(t => searchOption.TagTexts
+                    .Any(x => x.Contains(t.Name)))
+                .ToList();
+        }
     }
 }
