@@ -87,14 +87,21 @@ namespace MemoSoftV3.ViewModels
             var pageName = string.Empty;
             var paramName = string.Empty;
 
-            if (entity is Group group)
+            switch (entity)
             {
-                group.CanChangeToSmartGroup =
-                    DatabaseManager.SearchComments(new SearchOption())
-                        .All(c => c.GroupId != group.Id);
-                
-                pageName = nameof(GroupEditPage);
-                paramName = nameof(Group);
+                case Group group:
+                    group.CanChangeToSmartGroup =
+                        DatabaseManager.SearchComments(new SearchOption())
+                            .All(c => c.GroupId != group.Id);
+
+                    pageName = nameof(GroupEditPage);
+                    paramName = nameof(Group);
+                    break;
+
+                case Tag:
+                    pageName = nameof(TagEditPage);
+                    paramName = nameof(Tag);
+                    break;
             }
 
             dialogService.ShowDialog(
@@ -120,6 +127,7 @@ namespace MemoSoftV3.ViewModels
             }
 
             Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(new SearchOption()));
+            Tags = new ObservableCollection<Tag>(DatabaseManager.GetTags(new SearchOption()));
             Comments = new ObservableCollection<Comment>(DatabaseManager.SearchComments(new SearchOption()));
         });
     }
