@@ -103,7 +103,7 @@ namespace MemoSoftV3.Models
         public string GetCommentWithoutArgs(string commandText)
         {
             var m = Regex.Match(commandText, commandPattern);
-            return m.Index >= 0 ? commandText[..m.Index] : commandText;
+            return m.Success ? commandText[..m.Index] : commandText;
         }
     }
 }
