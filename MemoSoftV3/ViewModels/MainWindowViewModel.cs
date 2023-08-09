@@ -12,6 +12,7 @@ namespace MemoSoftV3.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private readonly IDialogService dialogService;
+        private readonly SearchOption searchOption = new ();
         private string title = "Prism Application";
         private string commandText = string.Empty;
         private ObservableCollection<Comment> comments;
@@ -44,14 +45,6 @@ namespace MemoSoftV3.ViewModels
 
                         Comments = new ObservableCollection<Comment>(
                             DatabaseManager.SearchComments(new SearchOption(option)));
-                    }
-                    else
-                    {
-                        Comments = new ObservableCollection<Comment>(
-                            DatabaseManager.SearchComments(new SearchOption
-                            {
-                                GroupName = value.Name,
-                            }));
                     }
                 }
 
@@ -110,6 +103,13 @@ namespace MemoSoftV3.ViewModels
                 });
         });
 
+        public DelegateCommand ChangeSearchConditionsCommand => new (() =>
+        {
+            searchOption.GroupName = CurrentGroup == null ? string.Empty : CurrentGroup.Name;
+            searchOption.TagTexts = Tags.Where(t => t.Applying).Select(t => t.Name).ToList();
+            LoadCommand.Execute();
+        });
+
         private DatabaseManager DatabaseManager { get; set; }
 
         private DelegateCommand LoadCommand => new (() =>
@@ -128,7 +128,11 @@ namespace MemoSoftV3.ViewModels
 
             Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(new SearchOption()));
             Tags = new ObservableCollection<Tag>(DatabaseManager.GetTags(new SearchOption()));
-            Comments = new ObservableCollection<Comment>(DatabaseManager.SearchComments(new SearchOption()));
+
+            // (CurrentGroup not null) and (IsSmartGroup is true)
+            Comments = CurrentGroup is { IsSmartGroup: true, }
+                ? new ObservableCollection<Comment>(DatabaseManager.SearchComments(new SearchOption()))
+                : new ObservableCollection<Comment>(DatabaseManager.SearchComments(searchOption));
         });
     }
 }
