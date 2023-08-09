@@ -136,11 +136,6 @@ namespace MemoSoftV3.Models
 
         public List<Comment> SearchComments(SearchOption option)
         {
-            if (option.IsDefault)
-            {
-                return DataSource.GetComments().ToList();
-            }
-
             // 上から順番に、テキスト - グループ - 追加日時 の順番でフィルタリング。
             var comments = DataSource.GetComments()
                 .Where(c => c.Text.Contains(option.Text) || string.IsNullOrEmpty(option.Text))
@@ -164,8 +159,21 @@ namespace MemoSoftV3.Models
                         return c;
                     })
                 .Where(c => option.StartDateTime < c.DateTime && option.EndDateTime > c.DateTime)
-                .ToList();
+                .GroupJoin(
+                    DataSource.GetTagMaps(),
+                    c => c.Id,
+                    t => t.CommentId,
+                    (c, ts) =>
+                    {
+                        c.Tags = ts.Join(
+                            DataSource.GetTags(),
+                            tm => tm.TagId,
+                            t => t.Id,
+                            (_, t) => t).ToList();
 
+                        return c;
+                    }).ToList();
+            
             if (!option.TagTexts.Any())
             {
                 // タグのフィルタリングは、二度 Join が必要になるので、タグが未入力の場合は終了。
