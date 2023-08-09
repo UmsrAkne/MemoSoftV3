@@ -76,6 +76,15 @@
                 </TabItem>
 
                 <TabItem Header="Tag">
+                    <TabItem.Style>
+                        <Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="TabItem">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentGroup.IsSmartGroup}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabItem.Style>
                     <ListView
                         ItemContainerStyle="{StaticResource GroupListViewControlTemplate}"
                         ItemTemplate="{StaticResource TagListViewDataTemplate}"
