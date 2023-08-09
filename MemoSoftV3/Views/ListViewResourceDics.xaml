@@ -303,30 +303,39 @@
                         Grid.Row="0"
                         Text="{Binding DateTime, Converter={StaticResource DateTimeConverter}}" />
 
-                    <ListBox
-                        Background="Transparent"
-                        BorderThickness="0"
+                    <StackPanel
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Grid.Row="1"
-                        ItemContainerStyle="{StaticResource TagListBoxItemContainerStyle}"
-                        ItemsSource="{Binding Tags}">
-                        <ListBox.ItemTemplate>
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
 
-                            <DataTemplate DataType="{x:Type models:Tag}">
-                                <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
-                                    <TextBlock FontSize="{StaticResource BasicFontSize}" Text="{Binding}" />
-                                </StackPanel>
+                        <TextBlock Text="{Binding GroupName}" />
 
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
+                        <Border Margin="2,0" Width="0" />
 
-                    </ListBox>
+                        <ListBox
+                            Background="Transparent"
+                            BorderThickness="0"
+                            ItemContainerStyle="{StaticResource TagListBoxItemContainerStyle}"
+                            ItemsSource="{Binding Tags}">
+                            <ListBox.ItemTemplate>
+
+                                <DataTemplate DataType="{x:Type models:Tag}">
+                                    <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
+                                        <TextBlock FontSize="{StaticResource BasicFontSize}" Text="{Binding}" />
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+
+                        </ListBox>
+                    </StackPanel>
                 </Grid>
 
             </Border>

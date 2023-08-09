@@ -140,11 +140,12 @@ namespace MemoSoftV3.Models
             var comments = DataSource.GetComments()
                 .Where(c => c.Text.Contains(option.Text) || string.IsNullOrEmpty(option.Text))
                 .Join(
-                    DataSource.GetGroups(),
+                    DataSource.GetGroups().Concat(new Group[] { new () { Id = 0, Name = string.Empty, }, }),
                     c => c.GroupId,
                     g => g.Id,
                     (c, g) =>
                     {
+                        // 取り出したリストに Group のリストを Concat しているのは、GroupId == 0 のコメントも一緒に抽出するため。
                         c.GroupName = g.Name;
                         return c;
                     })
