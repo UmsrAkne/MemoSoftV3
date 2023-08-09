@@ -194,6 +194,7 @@ namespace MemoSoftV3.Models
                     c => c.Id,
                     tm => tm.CommentId,
                     (c, _) => c)
+                .DistinctBy(c => c.Id)
                 .ToList();
         }
 
