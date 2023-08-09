@@ -102,6 +102,8 @@ namespace MemoSoftV3.Models
                 Text = text,
             };
 
+            Add(comment);
+
             if (!string.IsNullOrEmpty(cliOption.GroupName))
             {
                 // cliOption で指定されているグループをコメントに入力。存在しない場合は新規作成
@@ -130,8 +132,6 @@ namespace MemoSoftV3.Models
                     Add(new TagMap { TagId = commentTag.Id, CommentId = comment.Id, });
                 }
             }
-
-            Add(comment);
         }
 
         public List<Comment> SearchComments(SearchOption option)
