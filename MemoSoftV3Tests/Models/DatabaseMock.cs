@@ -4,6 +4,13 @@ namespace MemoSoftV3Tests.Models
 {
     public class DatabaseMock : IDataSource
     {
+        private int commentId;
+        private int subCommentId;
+        private int tagId;
+        private int tagMapId;
+        private int groupId;
+        private int actionId;
+
         public List<Comment> Comments { get; } = new ();
 
         public List<Tag> Tags { get; } = new ();
@@ -48,31 +55,61 @@ namespace MemoSoftV3Tests.Models
 
         public void Add(Comment cm)
         {
+            if (cm.Id == 0)
+            {
+                cm.Id = ++commentId;
+            }
+            
             Comments.Add(cm);
         }
 
         public void Add(SubComment cm)
         {
+            if (cm.Id == 0)
+            {
+                cm.Id = ++subCommentId;
+            }
+            
             SubComments.Add(cm);
         }
 
         public void Add(Tag tag)
         {
+            if (tag.Id == 0)
+            {
+                tag.Id = ++tagId;
+            }
+            
             Tags.Add(tag);
         }
 
         public void Add(TagMap tagMap)
         {
+            if (tagMap.Id == 0)
+            {
+                tagMap.Id = ++tagMapId;
+            }
+            
             TagMaps.Add(tagMap);
         }
 
         public void Add(Group group)
         {
+            if (group.Id == 0)
+            {
+                group.Id = ++groupId;
+            }
+            
             Groups.Add(group);
         }
 
         public void Add(DatabaseAction action)
         {
+            if (action.Id == 0)
+            {
+                action.Id = ++actionId;
+            }
+            
             Actions.Add(action);
         }
     }
