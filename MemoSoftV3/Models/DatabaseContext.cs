@@ -73,6 +73,7 @@ namespace MemoSoftV3.Models
         public void Add(SubComment cm)
         {
             SubComments.Add(cm);
+            SaveChanges();
         }
 
         public void Add(Tag tag)
