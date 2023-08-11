@@ -110,6 +110,13 @@ namespace MemoSoftV3.ViewModels
             LoadCommand.Execute();
         });
 
+        public DelegateCommand<Comment> AddSubCommentCommand => new (comment =>
+        {
+            comment.ChildSubComment.ParentCommentId = comment.Id;
+            DatabaseManager.Add(comment.ChildSubComment);
+            comment.ChildSubComment = new SubComment();
+        });
+
         private DatabaseManager DatabaseManager { get; set; }
 
         private DelegateCommand LoadCommand => new (() =>

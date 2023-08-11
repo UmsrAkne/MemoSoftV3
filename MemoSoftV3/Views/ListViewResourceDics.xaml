@@ -361,6 +361,16 @@
                 </ListView.Style>
             </ListView>
 
+            <TextBox Margin="20,0" Text="{Binding ChildSubComment.Text}">
+                <TextBox.InputBindings>
+                    <KeyBinding
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.(viewModels:MainWindowViewModel.AddSubCommentCommand)}"
+                        CommandParameter="{Binding}"
+                        Key="Enter"
+                        Modifiers="Control" />
+                </TextBox.InputBindings>
+            </TextBox>
+
         </StackPanel>
     </DataTemplate>
 

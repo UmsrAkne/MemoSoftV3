@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Prism.Mvvm;
 
 namespace MemoSoftV3.Models
 {
-    public class Comment : IDatabaseEntity
+    public class Comment : BindableBase, IDatabaseEntity
     {
+        private SubComment childSubComment = new ();
+
         [Key]
         [Required]
         public int Id { get; set; }
@@ -37,5 +40,8 @@ namespace MemoSoftV3.Models
 
         [NotMapped]
         public List<SubComment> SubComments { get; set; } = new ();
+
+        [NotMapped]
+        public SubComment ChildSubComment { get => childSubComment; set => SetProperty(ref childSubComment, value); }
     }
 }
