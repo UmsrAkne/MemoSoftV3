@@ -363,7 +363,7 @@
 
             <TextBox
                 Margin="20,0"
-                Text="{Binding ChildSubComment.Text}"
+                Text="{Binding ChildSubComment.Text, UpdateSourceTrigger=PropertyChanged}"
                 x:Name="SubCommentTextBox">
                 <TextBox.InputBindings>
                     <KeyBinding
