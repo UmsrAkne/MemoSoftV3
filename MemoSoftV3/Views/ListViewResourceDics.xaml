@@ -361,7 +361,10 @@
                 </ListView.Style>
             </ListView>
 
-            <TextBox Margin="20,0" Text="{Binding ChildSubComment.Text}">
+            <TextBox
+                Margin="20,0"
+                Text="{Binding ChildSubComment.Text}"
+                x:Name="SubCommentTextBox">
                 <TextBox.InputBindings>
                     <KeyBinding
                         Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.(viewModels:MainWindowViewModel.AddSubCommentCommand)}"
@@ -372,6 +375,11 @@
             </TextBox>
 
         </StackPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}, Path=IsSelected}" Value="False">
+                <Setter Property="Visibility" TargetName="SubCommentTextBox" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type models:Group}" x:Key="GroupListViewDataTemplate">
