@@ -110,6 +110,13 @@ namespace MemoSoftV3.ViewModels
             LoadCommand.Execute();
         });
 
+        public DelegateCommand<Comment> AddSubCommentCommand => new (comment =>
+        {
+            comment.ChildSubComment.ParentCommentId = comment.Id;
+            DatabaseManager.Add(comment.ChildSubComment);
+            comment.ChildSubComment = new SubComment();
+        });
+
         private DatabaseManager DatabaseManager { get; set; }
 
         private DelegateCommand LoadCommand => new (() =>
@@ -130,9 +137,11 @@ namespace MemoSoftV3.ViewModels
             Tags = new ObservableCollection<Tag>(DatabaseManager.GetTags(new SearchOption()));
 
             // (CurrentGroup not null) and (IsSmartGroup is true)
-            Comments = CurrentGroup is { IsSmartGroup: true, }
-                ? new ObservableCollection<Comment>(DatabaseManager.SearchComments(new SearchOption()))
-                : new ObservableCollection<Comment>(DatabaseManager.SearchComments(searchOption));
+            var cms = CurrentGroup is { IsSmartGroup: true, }
+                ? DatabaseManager.SearchComments(new SearchOption())
+                : DatabaseManager.SearchComments(searchOption);
+
+            Comments = new ObservableCollection<Comment>(DatabaseManager.InjectCommentProperties(cms));
         });
     }
 }
