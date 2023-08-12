@@ -362,7 +362,8 @@
             </ListView>
 
             <TextBox
-                Margin="20,0"
+                FontSize="{StaticResource BasicFontSize}"
+                Margin="22,0,1,0"
                 Text="{Binding ChildSubComment.Text, UpdateSourceTrigger=PropertyChanged}"
                 x:Name="SubCommentTextBox">
                 <TextBox.InputBindings>

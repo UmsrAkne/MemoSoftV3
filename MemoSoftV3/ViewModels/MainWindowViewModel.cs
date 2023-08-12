@@ -115,6 +115,7 @@ namespace MemoSoftV3.ViewModels
             comment.ChildSubComment.ParentCommentId = comment.Id;
             DatabaseManager.Add(comment.ChildSubComment);
             comment.ChildSubComment = new SubComment();
+            LoadCommand.Execute();
         });
 
         private DatabaseManager DatabaseManager { get; set; }

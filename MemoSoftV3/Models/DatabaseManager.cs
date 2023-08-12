@@ -212,7 +212,7 @@ namespace MemoSoftV3.Models
                         return c;
                     })
                 .Join(
-                    DataSource.GetGroups(),
+                    DataSource.GetGroups().Concat(new Group[] { new () { Id = 0, Name = string.Empty, }, }),
                     c => c.GroupId,
                     g => g.Id,
                     (c, g) =>
