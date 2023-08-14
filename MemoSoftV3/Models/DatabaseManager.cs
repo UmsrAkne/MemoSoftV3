@@ -134,6 +134,99 @@ namespace MemoSoftV3.Models
             }
         }
 
+        public List<Comment> GetComments(SearchOption option)
+        {
+            var comments = DataSource.GetComments()
+                .Where(c => c.Text.Contains(option.Text) || string.IsNullOrEmpty(option.Text)) // テキストでフィルタ
+                .Join(
+                    DataSource.GetGroups().Concat(new Group[] { new () { Id = 0, Name = string.Empty, }, }),
+                    c => c.GroupId,
+                    g => g.Id,
+                    (c, g) =>
+                    {
+                        // 取り出したリストに Group のリストを Concat しているのは、GroupId == 0 のコメントも一緒に抽出するため。
+                        c.GroupName = g.Name;
+                        return c;
+                    })
+                .Where(c => c.GroupName.Contains(option.GroupName)
+                            || string.IsNullOrEmpty(option.GroupName)) // グループ名でフィルタ
+                .Join(
+                    DataSource.GetActions().Where(a => a.Target == Target.Comment && a.Kind == Kind.Add),
+                    c => c.Id,
+                    a => a.TargetId,
+                    (c, a) =>
+                    {
+                        // コメントのプロパティに日時を入力する。
+                        c.DateTime = a.DateTime;
+                        return c;
+                    })
+                .Where(c => option.StartDateTime < c.DateTime && option.EndDateTime > c.DateTime) // 日時でフィルタ
+                .GroupJoin(
+                    DataSource.GetTagMaps(),
+                    c => c.Id,
+                    t => t.CommentId,
+                    (c, ts) =>
+                    {
+                        // コメントに紐づけされたタグを入力する。
+                        c.Tags = ts.Join(
+                            DataSource.GetTags(),
+                            tm => tm.TagId,
+                            t => t.Id,
+                            (_, t) => t).ToList();
+
+                        return c;
+                    })
+                .GroupJoin(
+                    DataSource.GetSubComments(),
+                    c => c.Id,
+                    sc => sc.ParentCommentId,
+                    (c, scs) =>
+                    {
+                        // コメントにサブコメントを入力する。
+                        c.SubComments = scs.Join(
+                            DataSource.GetActions().Where(a => a.Kind == Kind.Add && a.Target == Target.SubComment),
+                            s => s.Id,
+                            a => a.TargetId,
+                            (s, a) =>
+                            {
+                                s.DateTime = a.DateTime;
+                                return s;
+                            }).ToList();
+
+                        // サブコメントにタイムトラッキングが設定されている場合は、これに関する情報を入力する。
+                        if (c.SubComments.Count(sc => sc.TimeTracking) < 2)
+                        {
+                            return c;
+                        }
+
+                        var dt = DateTime.MinValue;
+                        foreach (var subComment in c.SubComments.Where(sc => sc.TimeTracking))
+                        {
+                            if (dt == DateTime.MinValue)
+                            {
+                                dt = subComment.DateTime;
+                                continue;
+                            }
+
+                            subComment.WorkingTimeSpan = subComment.DateTime - dt;
+                            dt = subComment.DateTime;
+                        }
+
+                        return c;
+                    });
+
+            if (!option.TagTexts.Any())
+            {
+                // 検索オプションのタグの情報がない場合は、この時点で終了する。
+                return comments.ToList();
+            }
+
+            // タグの検索情報がある場合は、最後にタグでフィルタリングする。
+            return comments
+                .Where(c => c.Tags.Any(t => option.TagTexts.Any(tt => tt.Contains(t.Name)))) // タグでフィルタ
+                .ToList();
+        }
+
         public List<Comment> SearchComments(SearchOption option)
         {
             // 上から順番に、テキスト - グループ - 追加日時 の順番でフィルタリング。

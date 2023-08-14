@@ -304,5 +304,86 @@ namespace MemoSoftV3Tests.Models
             Assert.That(comment1.SubComments[1].WorkingTimeSpan, Is.EqualTo(TimeSpan.FromMinutes(10)),
                 "設定した時刻から、WorkingTimeSpan は10分間となるはず");
         }
+
+        [Test]
+        public void GetCommentsTest_デフォルト検索オプション()
+        {
+            var manager = GetSampleCommentList();
+            var comments = manager.GetComments(new SearchOption());
+            Assert.That(comments, Has.Count.EqualTo(3));
+
+            Assert.That(comments[0].Tags, Has.Count.EqualTo(2));
+            Assert.That(comments[0].GroupName, Is.EqualTo("defaultGroup"));
+            Assert.That(comments[0].SubComments, Has.Count.EqualTo(2));
+            Assert.That(comments[0].SubComments[0].Text, Is.EqualTo("subCommentA"));
+            Assert.That(comments[0].SubComments[1].Text, Is.EqualTo("subCommentB"));
+
+            Assert.That(comments[1].Tags, Has.Count.EqualTo(1));
+            Assert.That(comments[1].GroupName, Is.EqualTo("otherGroup"));
+            Assert.That(comments[1].SubComments, Has.Count.EqualTo(1));
+            Assert.That(comments[1].SubComments[0].Text, Is.EqualTo("subCommentC"));
+
+            Assert.That(comments[2].GroupName, Is.EqualTo("otherGroup"));
+            Assert.That(comments[2].Tags, Has.Count.EqualTo(0));
+        }
+
+        [Test]
+        public void GetCommentsTest_テキスト検索オプション()
+        {
+            var manager = GetSampleCommentList();
+            var searchOption = new SearchOption { Text = "next", };
+            var comments = manager.GetComments(searchOption);
+
+            Assert.That(comments, Has.Count.EqualTo(2));
+
+            Assert.That(comments[0].Text, Is.EqualTo("nextComment"));
+            Assert.That(comments[1].Text, Is.EqualTo("nextComment3"));
+        }
+
+        [Test]
+        public void GetCommentsTest_テキスト_タグ検索()
+        {
+            var manager = GetSampleCommentList();
+            var searchOption = new SearchOption { Text = "next", TagTexts = { "testTagA", }, };
+            var comments = manager.GetComments(searchOption);
+
+            Assert.That(comments, Has.Count.EqualTo(1));
+            Assert.That(comments[0].Text, Is.EqualTo("nextComment"));
+        }
+
+        [Test]
+        [TestCase("defaultGroup", 1)]
+        [TestCase("otherGroup", 2)]
+        public void GetCommentsTest_グループ検索(string groupName, int groupCount)
+        {
+            var manager = GetSampleCommentList();
+            var searchOption = new SearchOption { GroupName = groupName, };
+            var comments = manager.GetComments(searchOption);
+
+            Assert.That(comments, Has.Count.EqualTo(groupCount));
+        }
+
+        private DatabaseManager GetSampleCommentList()
+        {
+            var source = new DatabaseMock();
+
+            var manager = new DatabaseManager(source);
+            manager.Add(new Group { Name = "defaultGroup", });
+            manager.Add(new Group { Name = "otherGroup", });
+            manager.Add(new Comment { GroupId = 1, Text = "testComment", });
+            manager.Add(new Comment { GroupId = 2, Text = "nextComment", });
+            manager.Add(new Comment { GroupId = 2, Text = "nextComment3", });
+            manager.Add(new Tag { Name = "testTagA", });
+            manager.Add(new Tag { Name = "testTagB", });
+            manager.Add(new Tag { Name = "testTagC", });
+            manager.Add(new TagMap { TagId = 1, CommentId = 1, });
+            manager.Add(new TagMap { TagId = 2, CommentId = 1, });
+            manager.Add(new TagMap { TagId = 1, CommentId = 2, });
+            manager.Add(new SubComment { Text = "subCommentA", ParentCommentId = 1, TimeTracking = true, });
+            manager.Add(new SubComment { Text = "subCommentB", ParentCommentId = 1, TimeTracking = true, });
+            manager.Add(new SubComment { Text = "subCommentC", ParentCommentId = 2, });
+
+            return manager;
+        }
     }
 }
