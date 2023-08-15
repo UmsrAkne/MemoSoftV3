@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MemoSoftV3.Models;
 using MemoSoftV3.ViewModels;
 using MemoSoftV3.Views;
 using Prism.Ioc;
@@ -19,6 +20,7 @@ namespace MemoSoftV3
         {
             containerRegistry.RegisterDialog<GroupEditPage, GroupEditPageViewModel>();
             containerRegistry.RegisterDialog<TagEditPage, TagEditPageViewModel>();
+            containerRegistry.Register<IDataSource, DatabaseContext>();
         }
     }
 }

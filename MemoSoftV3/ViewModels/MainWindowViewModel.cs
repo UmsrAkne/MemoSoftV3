@@ -21,8 +21,15 @@ namespace MemoSoftV3.ViewModels
         private Tag currentTag;
         private ObservableCollection<Tag> tags = new ();
 
-        public MainWindowViewModel(IDialogService dialogService)
+        public MainWindowViewModel(IDialogService dialogService, IDataSource dataSource)
         {
+            DatabaseManager = new DatabaseManager(dataSource);
+
+            if (DatabaseManager.GetGroups(new SearchOption()).Count == 0)
+            {
+                DatabaseManager.Add(new Group { Name = "All", IsSmartGroup = true, });
+            }
+            
             this.dialogService = dialogService;
             LoadCommand.Execute();
         }
@@ -127,31 +134,19 @@ namespace MemoSoftV3.ViewModels
             DatabaseManager.ReloadSubCommentTimeTracking(cm.SubComments);
         });
 
-        private DatabaseManager DatabaseManager { get; set; }
+        public DatabaseManager DatabaseManager { get; }
 
-        private DelegateCommand LoadCommand => new (() =>
+        public DelegateCommand LoadCommand => new (() =>
         {
-            if (DatabaseManager == null)
-            {
-                var dbContext = new DatabaseContext();
-                dbContext.Database.EnsureCreated();
-                DatabaseManager = new DatabaseManager(dbContext);
-
-                if (DatabaseManager.GetGroups(new SearchOption()).Count == 0)
-                {
-                    DatabaseManager.Add(new Group { Name = "All", IsSmartGroup = true, });
-                }
-            }
-
             Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(new SearchOption()));
             Tags = new ObservableCollection<Tag>(DatabaseManager.GetTags(new SearchOption()));
 
             // (CurrentGroup not null) and (IsSmartGroup is true)
             var cms = CurrentGroup is { IsSmartGroup: true, }
-                ? DatabaseManager.SearchComments(new SearchOption())
-                : DatabaseManager.SearchComments(searchOption);
+                ? DatabaseManager.GetComments(new SearchOption())
+                : DatabaseManager.GetComments(searchOption);
 
-            Comments = new ObservableCollection<Comment>(DatabaseManager.InjectCommentProperties(cms));
+            Comments = new ObservableCollection<Comment>(cms);
         });
     }
 }
