@@ -118,6 +118,12 @@ namespace MemoSoftV3.ViewModels
             LoadCommand.Execute();
         });
 
+        public DelegateCommand<SubComment> ReloadSubCommentTimeTrackingCommand => new (subComment =>
+        {
+            var cm = Comments.Single(c => c.Id == subComment.ParentCommentId);
+            DatabaseManager.ReloadSubCommentTimeTracking(cm.SubComments);
+        });
+
         private DatabaseManager DatabaseManager { get; set; }
 
         private DelegateCommand LoadCommand => new (() =>

@@ -128,7 +128,10 @@
                         Grid.Row="0"
                         Orientation="Horizontal">
 
-                        <ToggleButton IsChecked="{Binding TimeTracking}">
+                        <ToggleButton
+                            Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.(viewModels:MainWindowViewModel.ReloadSubCommentTimeTrackingCommand)}"
+                            CommandParameter="{Binding}"
+                            IsChecked="{Binding TimeTracking}">
                             <ToggleButton.Template>
                                 <ControlTemplate TargetType="ToggleButton">
                                     <Border x:Name="Border">

@@ -363,6 +363,29 @@ namespace MemoSoftV3.Models
                     }).ToList();
         }
 
+        public void ReloadSubCommentTimeTracking(IEnumerable<SubComment> subComments)
+        {
+            var timeTrackingComments = subComments.Where(sc => sc.TimeTracking).ToList();
+
+            if (timeTrackingComments.Count < 2)
+            {
+                return;
+            }
+
+            var dt = DateTime.MinValue;
+            foreach (var subComment in timeTrackingComments)
+            {
+                if (dt == DateTime.MinValue)
+                {
+                    dt = subComment.DateTime;
+                    continue;
+                }
+
+                subComment.WorkingTimeSpan = subComment.DateTime - dt;
+                dt = subComment.DateTime;
+            }
+        }
+
         public List<Group> GetGroups(SearchOption searchOption)
         {
             return string.IsNullOrEmpty(searchOption.GroupName)
