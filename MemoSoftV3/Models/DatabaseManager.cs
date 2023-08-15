@@ -93,6 +93,11 @@ namespace MemoSoftV3.Models
             DataSource.Add(new DatabaseAction(group, Kind.Add));
         }
 
+        public void Add(DatabaseAction action)
+        {
+            DataSource.Add(action);
+        }
+
         public void ExecuteCli(string text, CliOption cliOption)
         {
             var comment = new Comment
