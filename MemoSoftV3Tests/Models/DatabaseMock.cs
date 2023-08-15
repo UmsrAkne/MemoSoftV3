@@ -112,5 +112,9 @@ namespace MemoSoftV3Tests.Models
             
             Actions.Add(action);
         }
+
+        public void EnsureCreated()
+        {
+        }
     }
 }

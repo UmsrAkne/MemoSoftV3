@@ -133,9 +133,7 @@ namespace MemoSoftV3.ViewModels
         {
             if (DatabaseManager == null)
             {
-                var dbContext = new DatabaseContext();
-                dbContext.Database.EnsureCreated();
-                DatabaseManager = new DatabaseManager(dbContext);
+                DatabaseManager = new DatabaseManager(new DatabaseContext());
 
                 if (DatabaseManager.GetGroups(new SearchOption()).Count == 0)
                 {

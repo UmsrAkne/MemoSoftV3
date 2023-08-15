@@ -9,6 +9,7 @@ namespace MemoSoftV3.Models
         public DatabaseManager(IDataSource source)
         {
             DataSource = source;
+            DataSource.EnsureCreated();
         }
 
         private IDataSource DataSource { get; set; }
