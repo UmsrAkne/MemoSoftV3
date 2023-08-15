@@ -21,7 +21,7 @@ namespace MemoSoftV3.ViewModels
         private Tag currentTag;
         private ObservableCollection<Tag> tags = new ();
 
-        public MainWindowViewModel(IDialogService dialogService)
+        public MainWindowViewModel(IDialogService dialogService, IDataSource dataSource)
         {
             this.dialogService = dialogService;
             LoadCommand.Execute();
