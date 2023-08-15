@@ -8,5 +8,7 @@
         ToUnCheckable,
         Check,
         UnCheck,
+        SetTimeTracking,
+        CancelTimeTracking,
     }
 }
