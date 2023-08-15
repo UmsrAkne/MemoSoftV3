@@ -23,6 +23,13 @@ namespace MemoSoftV3.ViewModels
 
         public MainWindowViewModel(IDialogService dialogService, IDataSource dataSource)
         {
+            DatabaseManager = new DatabaseManager(dataSource);
+
+            if (DatabaseManager.GetGroups(new SearchOption()).Count == 0)
+            {
+                DatabaseManager.Add(new Group { Name = "All", IsSmartGroup = true, });
+            }
+            
             this.dialogService = dialogService;
             LoadCommand.Execute();
         }
@@ -131,16 +138,6 @@ namespace MemoSoftV3.ViewModels
 
         private DelegateCommand LoadCommand => new (() =>
         {
-            if (DatabaseManager == null)
-            {
-                DatabaseManager = new DatabaseManager(new DatabaseContext());
-
-                if (DatabaseManager.GetGroups(new SearchOption()).Count == 0)
-                {
-                    DatabaseManager.Add(new Group { Name = "All", IsSmartGroup = true, });
-                }
-            }
-
             Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(new SearchOption()));
             Tags = new ObservableCollection<Tag>(DatabaseManager.GetTags(new SearchOption()));
 
