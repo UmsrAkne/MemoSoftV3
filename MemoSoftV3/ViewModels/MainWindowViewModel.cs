@@ -134,19 +134,19 @@ namespace MemoSoftV3.ViewModels
             DatabaseManager.ReloadSubCommentTimeTracking(cm.SubComments);
         });
 
-        private DatabaseManager DatabaseManager { get; set; }
+        public DatabaseManager DatabaseManager { get; }
 
-        private DelegateCommand LoadCommand => new (() =>
+        public DelegateCommand LoadCommand => new (() =>
         {
             Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(new SearchOption()));
             Tags = new ObservableCollection<Tag>(DatabaseManager.GetTags(new SearchOption()));
 
             // (CurrentGroup not null) and (IsSmartGroup is true)
             var cms = CurrentGroup is { IsSmartGroup: true, }
-                ? DatabaseManager.SearchComments(new SearchOption())
-                : DatabaseManager.SearchComments(searchOption);
+                ? DatabaseManager.GetComments(new SearchOption())
+                : DatabaseManager.GetComments(searchOption);
 
-            Comments = new ObservableCollection<Comment>(DatabaseManager.InjectCommentProperties(cms));
+            Comments = new ObservableCollection<Comment>(cms);
         });
     }
 }
