@@ -29,7 +29,7 @@ namespace MemoSoftV3.ViewModels
             {
                 DatabaseManager.Add(new Group { Name = "All", IsSmartGroup = true, });
             }
-            
+
             this.dialogService = dialogService;
             LoadCommand.Execute();
         }
@@ -51,7 +51,7 @@ namespace MemoSoftV3.ViewModels
                         var option = parser.ParseSearchCommand(value.Command);
 
                         Comments = new ObservableCollection<Comment>(
-                            DatabaseManager.SearchComments(new SearchOption(option)));
+                            DatabaseManager.GetComments(new SearchOption(option)));
                     }
                 }
 
@@ -77,7 +77,7 @@ namespace MemoSoftV3.ViewModels
             var cmWa = parser.GetCommentWithoutArgs(CommandText);
             var option = parser.Parse(parser.GetArgsString(CommandText));
             DatabaseManager.ExecuteCli(cmWa, option);
-            
+
             CommandText = string.Empty;
             LoadCommand.Execute();
         });
@@ -91,7 +91,7 @@ namespace MemoSoftV3.ViewModels
             {
                 case Group group:
                     group.CanChangeToSmartGroup =
-                        DatabaseManager.SearchComments(new SearchOption())
+                        DatabaseManager.GetComments(new SearchOption())
                             .All(c => c.GroupId != group.Id);
 
                     pageName = nameof(GroupEditPage);
@@ -129,7 +129,7 @@ namespace MemoSoftV3.ViewModels
         {
             DatabaseManager.Add(new DatabaseAction(
                 subComment, subComment.TimeTracking ? Kind.SetTimeTracking : Kind.CancelTimeTracking));
-            
+
             var cm = Comments.Single(c => c.Id == subComment.ParentCommentId);
             DatabaseManager.ReloadSubCommentTimeTracking(cm.SubComments);
         });
