@@ -262,12 +262,16 @@
                                             </Style>
                                         </Border.Style>
 
-                                        <TextBlock HorizontalAlignment="Center" Text="Fav">
+                                        <TextBlock HorizontalAlignment="Center" Text="★">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsFavorite}" Value="False">
                                                             <Setter Property="Foreground" Value="DarkGray" />
+                                                        </DataTrigger>
+
+                                                        <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                                            <Setter Property="Foreground" Value="DarkOrange" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
