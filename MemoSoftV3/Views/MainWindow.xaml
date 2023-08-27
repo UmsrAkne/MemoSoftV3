@@ -100,7 +100,9 @@
                 ItemContainerStyle="{StaticResource ListViewItemContainerStyle}"
                 ItemTemplate="{StaticResource CommentListDataTemplate}"
                 ItemsSource="{Binding Comments}"
-                Padding="2" />
+                Padding="2"
+                ScrollViewer.CanContentScroll="True"
+                VirtualizingPanel.ScrollUnit="Pixel" />
         </DockPanel>
 
         <StatusBar Grid.Row="2" />
