@@ -78,6 +78,7 @@
             <Border
                 BorderBrush="DarkGray"
                 DockPanel.Dock="Right"
+                Margin="0,2"
                 Padding="3">
 
                 <Grid>
