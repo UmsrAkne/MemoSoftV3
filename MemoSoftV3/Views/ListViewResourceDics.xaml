@@ -178,7 +178,7 @@
                         </StackPanel.Style>
 
                         <TextBlock Text="作業時間 : " />
-                        <TextBlock Text="{Binding WorkingTimeSpan}" />
+                        <TextBlock Text="{Binding WorkingTimeSpan, Converter={StaticResource TimeSpanConverter}}" />
                     </StackPanel>
                 </Grid>
 

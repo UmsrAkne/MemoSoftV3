@@ -10,5 +10,6 @@
         <SolidColorBrush Color="#222222" x:Key="DarkBgBrush" />
         <SolidColorBrush Color="#444444" x:Key="MiddleDarkBgBrush" />
         <converters:DateTimeConverter x:Key="DateTimeConverter" />
+        <converters:TimeSpanConverter x:Key="TimeSpanConverter" />
     </Application.Resources>
 </prism:PrismApplication>
