@@ -236,6 +236,8 @@
 
                         <ToggleButton
                             BorderThickness="0"
+                            Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.(viewModels:MainWindowViewModel.ChangeFavoriteCommand)}"
+                            CommandParameter="{Binding}"
                             IsChecked="{Binding IsFavorite}"
                             x:Name="FavoriteButton">
 

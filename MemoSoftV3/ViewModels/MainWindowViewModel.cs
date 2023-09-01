@@ -134,6 +134,12 @@ namespace MemoSoftV3.ViewModels
             DatabaseManager.ReloadSubCommentTimeTracking(cm.SubComments);
         });
 
+        public DelegateCommand<Comment> ChangeFavoriteCommand => new ((comment) =>
+        {
+            DatabaseManager.Add(new DatabaseAction(comment, comment.IsFavorite ? Kind.ToFavorite : Kind.UnFavorite));
+            LoadCommand.Execute();
+        });
+
         public DatabaseManager DatabaseManager { get; }
 
         public DelegateCommand LoadCommand => new (() =>

@@ -10,5 +10,7 @@
         UnCheck,
         SetTimeTracking,
         CancelTimeTracking,
+        ToFavorite,
+        UnFavorite,
     }
 }

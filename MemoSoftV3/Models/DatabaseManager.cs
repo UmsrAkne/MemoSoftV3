@@ -275,5 +275,10 @@ namespace MemoSoftV3.Models
                     .Any(x => x.Contains(t.Name)))
                 .ToList();
         }
+
+        public List<DatabaseAction> GetDatabaseActions()
+        {
+            return DataSource.GetActions().OrderBy(a => a.DateTime).ToList();
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace MemoSoftV3.Models
     public class Comment : BindableBase, IDatabaseEntity
     {
         private SubComment childSubComment = new ();
+        private bool isFavorite;
 
         [Key]
         [Required]
@@ -21,7 +22,7 @@ namespace MemoSoftV3.Models
         public string Text { get; set; } = string.Empty;
 
         [Required]
-        public bool IsFavorite { get; set; }
+        public bool IsFavorite { get => isFavorite; set => SetProperty(ref isFavorite, value); }
 
         [Required]
         public bool IsCheckable { get; set; }
