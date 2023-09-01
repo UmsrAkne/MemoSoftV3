@@ -58,6 +58,30 @@ namespace MemoSoftV3Tests.ViewModels
                 Assert.That(selectedComment.SubComments[3].Text, Is.EqualTo("newSubComment2"));
             });
         }
+
+        [Test]
+        public void ChangeFavoriteCommandTest()
+        {
+            var vm = MainWindowViewModel;
+            var sampleComment = vm.Comments.OrderBy(c => c.Id).First();
+
+            var k01 = vm.DatabaseManager.GetDatabaseActions().FirstOrDefault(a => a.Kind == Kind.ToFavorite);
+            var k02 = vm.DatabaseManager.GetDatabaseActions().FirstOrDefault(a => a.Kind == Kind.UnFavorite);
+            Assert.IsNull(k01, "現時点で該当アクションはデータベースに無い。");
+            Assert.IsNull(k02, "現時点で該当アクションはデータベースに無い。");
+
+            // コマンドを実行した結果、データベースに DatabaseAction が記録されるかを確認する。
+
+            sampleComment.IsFavorite = true;
+            vm.ChangeFavoriteCommand.Execute(sampleComment);
+            var k = vm.DatabaseManager.GetDatabaseActions().First(a => a.Kind == Kind.ToFavorite);
+            Assert.That(k.TargetId, Is.EqualTo(1), "コマンド実行後は、お気に入りを変更したという情報が記録されている");
+
+            sampleComment.IsFavorite = false;
+            vm.ChangeFavoriteCommand.Execute(sampleComment);
+            var k2 = vm.DatabaseManager.GetDatabaseActions().First(a => a.Kind == Kind.UnFavorite);
+            Assert.That(k2.TargetId, Is.EqualTo(1), "コマンド実行後は、お気に入りを変更したという情報が記録されている");
+        }
     }
 
     internal class DialogServiceMock : IDialogService
