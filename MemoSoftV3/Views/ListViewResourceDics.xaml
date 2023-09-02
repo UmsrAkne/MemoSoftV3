@@ -199,6 +199,13 @@
                 Margin="0,2"
                 Padding="3">
 
+                <Border.InputBindings>
+                    <MouseBinding
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.(viewModels:MainWindowViewModel.ShowEditPageCommand)}"
+                        CommandParameter="{Binding}"
+                        MouseAction="LeftDoubleClick" />
+                </Border.InputBindings>
+
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>

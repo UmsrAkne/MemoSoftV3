@@ -102,6 +102,11 @@ namespace MemoSoftV3.ViewModels
                     pageName = nameof(TagEditPage);
                     paramName = nameof(Tag);
                     break;
+
+                case Comment:
+                    pageName = nameof(CommentEditPage);
+                    paramName = nameof(Comment);
+                    break;
             }
 
             dialogService.ShowDialog(
