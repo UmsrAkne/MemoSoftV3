@@ -219,7 +219,8 @@ namespace MemoSoftV3.Models
                         }
 
                         return c;
-                    });
+                    })
+                .OrderBy(c => c.DateTime);
 
             if (!option.TagTexts.Any())
             {
