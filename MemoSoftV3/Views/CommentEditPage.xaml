@@ -1,6 +1,6 @@
 ﻿<Page
+    MinWidth="600"
     Title="CommentEditPage"
-    Width="600"
     d:DataContext="{d:DesignInstance viewModels:CommentEditPageViewModel}"
     mc:Ignorable="d"
     x:Class="MemoSoftV3.Views.CommentEditPage"
@@ -11,10 +11,15 @@
     xmlns:viewModels="clr-namespace:MemoSoftV3.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Margin="3">
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontSize" Value="{StaticResource BasicFontSize}" />
+            </Style>
+        </Grid.Resources>
 
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
@@ -23,23 +28,30 @@
 
             <Border
                 BorderBrush="Gray"
+                BorderThickness="1"
                 Height="1"
                 Margin="0,2" />
 
-            <TextBlock Text="DateTime : " />
-            <TextBlock Text="{Binding Comment.DateTime, Converter={StaticResource DateTimeConverter}}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="DateTime : " />
+                <TextBlock Text="{Binding Comment.DateTime, Converter={StaticResource DateTimeConverter}}" />
+            </StackPanel>
 
             <Border
                 BorderBrush="Gray"
-                Height="1"
-                Margin="0,2" />
-
-            <Border
-                BorderBrush="Gray"
+                BorderThickness="1"
                 Height="1"
                 Margin="0,2" />
 
             <StackPanel Margin="0,4" Orientation="Horizontal">
+
+                <TextBlock Text="Check Box : " />
+
+                <CheckBox
+                    IsChecked="{Binding Comment.Checked}"
+                    IsEnabled="{Binding Comment.IsCheckable}"
+                    Margin="6,0"
+                    VerticalAlignment="Center" />
 
                 <ToggleButton
                     HorizontalAlignment="Left"
@@ -61,17 +73,18 @@
                     </ToggleButton.Style>
                 </ToggleButton>
 
-                <CheckBox
-                    IsChecked="{Binding Comment.Checked}"
-                    IsEnabled="{Binding Comment.IsCheckable}"
-                    Margin="4,0" />
-
             </StackPanel>
 
             <StackPanel Margin="0,4" Orientation="Horizontal">
                 <TextBlock Text="GroupName : " />
                 <TextBlock Text="{Binding Comment.GroupName}" />
             </StackPanel>
+
+            <Border
+                BorderBrush="Gray"
+                BorderThickness="1"
+                Height="1"
+                Margin="0,2" />
 
             <TextBlock Text="SubComment : " />
 
@@ -80,14 +93,23 @@
                     <DataTemplate DataType="{x:Type models:Comment}">
                         <Border>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding DateTime, Converter={StaticResource DateTimeConverter}}" />
+                                <TextBlock FontSize="{StaticResource BasicFontSize}" Text="{Binding DateTime, Converter={StaticResource DateTimeConverter}}" />
                                 <Border Margin="3,0" Width="0" />
-                                <TextBlock Text="{Binding Text}" />
+                                <TextBlock FontSize="{StaticResource BasicFontSize}" Text="{Binding Text}" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <Border
+                BorderBrush="Gray"
+                BorderThickness="1"
+                Height="1"
+                Margin="0,2" />
+
+
+            <TextBlock Text="Tags : " />
 
             <ListView BorderThickness="0" ItemsSource="{Binding Comment.Tags}" />
 
