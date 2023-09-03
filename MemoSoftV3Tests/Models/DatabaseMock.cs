@@ -116,5 +116,9 @@ namespace MemoSoftV3Tests.Models
         public void EnsureCreated()
         {
         }
+
+        public void Save()
+        {
+        }
     }
 }

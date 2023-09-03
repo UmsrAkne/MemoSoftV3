@@ -105,6 +105,11 @@ namespace MemoSoftV3.Models
             Database.EnsureCreated();
         }
 
+        public void Save()
+        {
+            SaveChanges();
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!File.Exists(DatabaseFileName))
