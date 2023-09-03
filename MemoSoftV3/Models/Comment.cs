@@ -10,6 +10,8 @@ namespace MemoSoftV3.Models
     {
         private SubComment childSubComment = new ();
         private bool isFavorite;
+        private bool isCheckable;
+        private bool isChecked;
 
         [Key]
         [Required]
@@ -25,10 +27,10 @@ namespace MemoSoftV3.Models
         public bool IsFavorite { get => isFavorite; set => SetProperty(ref isFavorite, value); }
 
         [Required]
-        public bool IsCheckable { get; set; }
+        public bool IsCheckable { get => isCheckable; set => SetProperty(ref isCheckable, value); }
 
         [Required]
-        public bool Checked { get; set; }
+        public bool Checked { get => isChecked; set => SetProperty(ref isChecked, value); }
 
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
