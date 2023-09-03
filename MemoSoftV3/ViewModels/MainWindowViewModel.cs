@@ -109,10 +109,15 @@ namespace MemoSoftV3.ViewModels
                     break;
             }
 
-            dialogService.ShowDialog(
-                pageName, new DialogParameters { { paramName, entity }, }, _ =>
-                {
-                });
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            // コーディング規約を優先するため、あえてオブジェクト初期化子を使用していない。
+            var param = new DialogParameters();
+            param.Add(paramName, entity);
+            param.Add(nameof(DatabaseManager), DatabaseManager);
+
+            dialogService.ShowDialog(pageName, param, _ =>
+            {
+            });
         });
 
         public DelegateCommand ChangeSearchConditionsCommand => new (() =>

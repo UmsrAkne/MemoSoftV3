@@ -8,12 +8,14 @@ namespace MemoSoftV3.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class CommentEditPageViewModel : IDialogAware
     {
+        private DatabaseManager databaseManager;
+        
         public event Action<IDialogResult> RequestClose;
 
         public string Title => string.Empty;
 
         public Comment Comment { get; set; }
-
+        
         public DelegateCommand CloseCommand => new (() =>
         {
             RequestClose?.Invoke(new DialogResult());
@@ -31,6 +33,7 @@ namespace MemoSoftV3.ViewModels
         public void OnDialogOpened(IDialogParameters parameters)
         {
             Comment = parameters.GetValue<Comment>(nameof(Comment));
+            databaseManager = parameters.GetValue<DatabaseManager>(nameof(DatabaseManager));
         }
     }
 }
