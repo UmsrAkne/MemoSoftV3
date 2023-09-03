@@ -43,6 +43,41 @@ namespace MemoSoftV3Tests.ViewModels
             Assert.That(actSecond.Kind, Is.EqualTo(Kind.ToUnCheckable), "チェック不可に切り替えたので、 ToUnCheckable が入っている");
         }
 
+        [Test]
+        public void CheckCommandTest()
+        {
+            var vm = GetViewModel();
+            var actDefault = vm.DatabaseManager
+                .GetDatabaseActions()
+                .FirstOrDefault(a => a.Kind is Kind.Check or Kind.UnCheck);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(actDefault, Is.Null, "初期状態ではまだ null のはず");
+                Assert.That(vm.Comment.Checked, Is.False);
+            });
+
+            vm.Comment.Checked = true;
+            vm.CheckCommand.Execute();
+
+            var actAfter = vm.DatabaseManager
+                .GetDatabaseActions()
+                .Where(a => a.Kind is Kind.Check or Kind.UnCheck)
+                .ToList()[0];
+
+            Assert.That(actAfter.Kind, Is.EqualTo(Kind.Check), "チェック状態に切り替えたので、 Check が入っている");
+
+            vm.Comment.Checked = false;
+            vm.CheckCommand.Execute();
+
+            var actSecond = vm.DatabaseManager
+                .GetDatabaseActions()
+                .Where(a => a.Kind is Kind.Check or Kind.UnCheck)
+                .ToList()[1];
+
+            Assert.That(actSecond.Kind, Is.EqualTo(Kind.UnCheck), "アンチェックに切り替えたので、 UnCheck が入っている");
+        }
+
         private CommentEditPageViewModel GetViewModel()
         {
             var param = new DialogParameters();
