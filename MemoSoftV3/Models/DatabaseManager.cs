@@ -281,5 +281,10 @@ namespace MemoSoftV3.Models
         {
             return DataSource.GetActions().OrderBy(a => a.DateTime).ToList();
         }
+
+        public void SaveChanges()
+        {
+            DataSource.Save();
+        }
     }
 }

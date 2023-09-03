@@ -29,5 +29,7 @@ namespace MemoSoftV3.Models
         public void Add(DatabaseAction action);
 
         public void EnsureCreated();
+
+        public void Save();
     }
 }
