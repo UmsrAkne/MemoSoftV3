@@ -21,6 +21,30 @@ namespace MemoSoftV3.ViewModels
             RequestClose?.Invoke(new DialogResult());
         });
 
+        public DelegateCommand ToggleCheckableCommand => new (() =>
+        {
+            databaseManager.Add(
+                new DatabaseAction
+                {
+                    DateTime = DateTime.Now,
+                    Kind = Comment.IsCheckable ? Kind.ToCheckable : Kind.ToUnCheckable,
+                    Target = Target.Comment,
+                    TargetId = Comment.Id,
+                });
+        });
+
+        public DelegateCommand CheckCommand => new (() =>
+        {
+            databaseManager.Add(
+                new DatabaseAction
+                {
+                    DateTime = DateTime.Now,
+                    Kind = Comment.Checked ? Kind.Check : Kind.UnCheck,
+                    Target = Target.Comment,
+                    TargetId = Comment.Id,
+                });
+        });
+
         public bool CanCloseDialog()
         {
             return true;

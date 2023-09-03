@@ -48,12 +48,14 @@
                 <TextBlock Text="Check Box : " />
 
                 <CheckBox
+                    Command="{Binding CheckCommand}"
                     IsChecked="{Binding Comment.Checked}"
                     IsEnabled="{Binding Comment.IsCheckable}"
                     Margin="6,0"
                     VerticalAlignment="Center" />
 
                 <ToggleButton
+                    Command="{Binding ToggleCheckableCommand}"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Comment.IsCheckable}"
                     Width="100">
