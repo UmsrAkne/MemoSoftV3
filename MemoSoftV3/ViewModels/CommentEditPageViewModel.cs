@@ -14,9 +14,35 @@ namespace MemoSoftV3.ViewModels
 
         public Comment Comment { get; set; }
 
+        public DatabaseManager DatabaseManager { get; private set; }
+        
         public DelegateCommand CloseCommand => new (() =>
         {
             RequestClose?.Invoke(new DialogResult());
+        });
+
+        public DelegateCommand ToggleCheckableCommand => new (() =>
+        {
+            DatabaseManager.Add(
+                new DatabaseAction
+                {
+                    DateTime = DateTime.Now,
+                    Kind = Comment.IsCheckable ? Kind.ToCheckable : Kind.ToUnCheckable,
+                    Target = Target.Comment,
+                    TargetId = Comment.Id,
+                });
+        });
+
+        public DelegateCommand CheckCommand => new (() =>
+        {
+            DatabaseManager.Add(
+                new DatabaseAction
+                {
+                    DateTime = DateTime.Now,
+                    Kind = Comment.Checked ? Kind.Check : Kind.UnCheck,
+                    Target = Target.Comment,
+                    TargetId = Comment.Id,
+                });
         });
 
         public bool CanCloseDialog()
@@ -31,6 +57,7 @@ namespace MemoSoftV3.ViewModels
         public void OnDialogOpened(IDialogParameters parameters)
         {
             Comment = parameters.GetValue<Comment>(nameof(Comment));
+            DatabaseManager = parameters.GetValue<DatabaseManager>(nameof(DatabaseManager));
         }
     }
 }
