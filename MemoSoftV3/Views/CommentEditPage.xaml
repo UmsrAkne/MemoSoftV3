@@ -79,7 +79,18 @@
 
             <StackPanel Margin="0,4" Orientation="Horizontal">
                 <TextBlock Text="GroupName : " />
-                <TextBlock Text="{Binding Comment.GroupName}" />
+                <ComboBox
+                    ItemsSource="{Binding Groups}"
+                    Margin="5,0"
+                    MinWidth="150"
+                    SelectedItem="{Binding CurrentGroup}">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:Group}">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </StackPanel>
 
             <Border
