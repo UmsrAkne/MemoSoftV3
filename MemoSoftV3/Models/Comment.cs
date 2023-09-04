@@ -12,13 +12,15 @@ namespace MemoSoftV3.Models
         private bool isFavorite;
         private bool isCheckable;
         private bool isChecked;
+        private string groupName = string.Empty;
+        private int groupId;
 
         [Key]
         [Required]
         public int Id { get; set; }
 
         [Required]
-        public int GroupId { get; set; }
+        public int GroupId { get => groupId; set => SetProperty(ref groupId, value); }
 
         [Required]
         public string Text { get; set; } = string.Empty;
@@ -39,7 +41,7 @@ namespace MemoSoftV3.Models
         public List<Tag> Tags { get; set; } = new ();
 
         [NotMapped]
-        public string GroupName { get; set; } = string.Empty;
+        public string GroupName { get => groupName; set => SetProperty(ref groupName, value); }
 
         [NotMapped]
         public List<SubComment> SubComments { get; set; } = new ();

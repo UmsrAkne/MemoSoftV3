@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MemoSoftV3.Models;
 using Prism.Commands;
 using Prism.Services.Dialogs;
@@ -13,6 +15,10 @@ namespace MemoSoftV3.ViewModels
         public string Title => string.Empty;
 
         public Comment Comment { get; set; }
+
+        public List<Group> Groups { get; private set; }
+
+        public Group CurrentGroup { get; set; }
 
         public DatabaseManager DatabaseManager { get; private set; }
         
@@ -45,6 +51,13 @@ namespace MemoSoftV3.ViewModels
                 });
         });
 
+        public DelegateCommand ChangeGroupCommand => new (() =>
+        {
+            Comment.GroupName = CurrentGroup != null ? CurrentGroup.Name : string.Empty;
+            Comment.GroupId = CurrentGroup?.Id ?? 0;
+            DatabaseManager.SaveChanges();
+        });
+
         public bool CanCloseDialog()
         {
             return true;
@@ -58,6 +71,14 @@ namespace MemoSoftV3.ViewModels
         {
             Comment = parameters.GetValue<Comment>(nameof(Comment));
             DatabaseManager = parameters.GetValue<DatabaseManager>(nameof(DatabaseManager));
+            Groups = DatabaseManager.GetGroups(new SearchOption()).Where(g => !g.IsSmartGroup).ToList();
+
+            if (Comment.GroupId != 0)
+            {
+                CurrentGroup = DatabaseManager
+                    .GetGroups(new SearchOption())
+                    .FirstOrDefault(g => g.Id == Comment.GroupId);
+            }
         }
     }
 }
