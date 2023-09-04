@@ -6,6 +6,7 @@
     x:Class="MemoSoftV3.Views.CommentEditPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:MemoSoftV3.Models"
     xmlns:viewModels="clr-namespace:MemoSoftV3.ViewModels"
@@ -87,9 +88,15 @@
 
                     <ComboBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type models:Group}">
-                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock FontSize="{StaticResource BasicFontSize}" Text="{Binding Name}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ChangeGroupCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </ComboBox>
             </StackPanel>
 

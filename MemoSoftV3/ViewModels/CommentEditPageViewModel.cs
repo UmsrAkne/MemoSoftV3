@@ -51,6 +51,13 @@ namespace MemoSoftV3.ViewModels
                 });
         });
 
+        public DelegateCommand ChangeGroupCommand => new (() =>
+        {
+            Comment.GroupName = CurrentGroup != null ? CurrentGroup.Name : string.Empty;
+            Comment.GroupId = CurrentGroup?.Id ?? 0;
+            DatabaseManager.SaveChanges();
+        });
+
         public bool CanCloseDialog()
         {
             return true;
