@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Prism.Mvvm;
 
 namespace MemoSoftV3.Models
 {
-    public class Group : IDatabaseEntity
+    public class Group : BindableBase, IDatabaseEntity
     {
+        private bool isSmartGroup;
+
         [Key]
         [Required]
         public int Id { get; set; }
@@ -14,7 +17,7 @@ namespace MemoSoftV3.Models
         public string Name { get; set; }
 
         [Required]
-        public bool IsSmartGroup { get; set; }
+        public bool IsSmartGroup { get => isSmartGroup; set => SetProperty(ref isSmartGroup, value); }
 
         [Required]
         public string Command { get; set; } = string.Empty;

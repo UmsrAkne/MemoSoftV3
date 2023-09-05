@@ -9,14 +9,21 @@ namespace MemoSoftV3.ViewModels
     {
         public event Action<IDialogResult> RequestClose;
 
-        public string Title => string.Empty;
-
-        public Group CurrentGroup { get; set; }
+        public Group CurrentGroup { get; private set; }
 
         public DelegateCommand CloseCommand => new (() =>
         {
             RequestClose?.Invoke(new DialogResult());
         });
+
+        public DelegateCommand ToggleSmartGroupCommand => new (() =>
+        {
+            DatabaseManager.SaveChanges();
+        });
+
+        public DatabaseManager DatabaseManager { get; private set; }
+
+        public string Title => string.Empty;
 
         public bool CanCloseDialog()
         {
@@ -30,6 +37,7 @@ namespace MemoSoftV3.ViewModels
         public void OnDialogOpened(IDialogParameters parameters)
         {
             CurrentGroup = parameters.GetValue<Group>(nameof(Group));
+            DatabaseManager = parameters.GetValue<DatabaseManager>(nameof(DatabaseManager));
         }
     }
 }

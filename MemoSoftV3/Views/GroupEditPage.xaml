@@ -46,6 +46,7 @@
         <DockPanel>
             <TextBlock DockPanel.Dock="Left" Text="Smart Group : " />
             <CheckBox
+                Command="{Binding ToggleSmartGroupCommand}"
                 IsChecked="{Binding CurrentGroup.IsSmartGroup}"
                 IsEnabled="{Binding CurrentGroup.CanChangeToSmartGroup}"
                 Margin="4,2,0,0"
