@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using MemoSoftV3.Models;
-using MemoSoftV3.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -84,31 +83,9 @@ namespace MemoSoftV3.ViewModels
 
         public DelegateCommand<IDatabaseEntity> ShowEditPageCommand => new (entity =>
         {
-            var pageName = string.Empty;
-            var paramName = string.Empty;
-
-            switch (entity)
-            {
-                case Group group:
-                    group.CanChangeToSmartGroup =
-                        DatabaseManager.GetComments(new SearchOption())
-                            .All(c => c.GroupId != group.Id);
-
-                    pageName = nameof(GroupEditPage);
-                    paramName = nameof(Group);
-                    break;
-
-                case Tag:
-                    pageName = nameof(TagEditPage);
-                    paramName = nameof(Tag);
-                    break;
-
-                case Comment:
-                    pageName = nameof(CommentEditPage);
-                    paramName = nameof(Comment);
-                    break;
-            }
-
+            var pageName = $"{entity.GetType().Name}EditPage";
+            var paramName = entity.GetType().Name;
+            
             // ReSharper disable once UseObjectOrCollectionInitializer
             // コーディング規約を優先するため、あえてオブジェクト初期化子を使用していない。
             var param = new DialogParameters();

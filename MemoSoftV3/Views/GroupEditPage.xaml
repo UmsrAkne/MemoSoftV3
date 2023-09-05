@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:MemoSoftV3.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <StackPanel Margin="2">
+    <StackPanel Margin="3">
 
         <DockPanel>
             <TextBlock DockPanel.Dock="Left" Text="Group Name : " />
@@ -46,6 +46,7 @@
         <DockPanel>
             <TextBlock DockPanel.Dock="Left" Text="Smart Group : " />
             <CheckBox
+                Command="{Binding ToggleSmartGroupCommand}"
                 IsChecked="{Binding CurrentGroup.IsSmartGroup}"
                 IsEnabled="{Binding CurrentGroup.CanChangeToSmartGroup}"
                 Margin="4,2,0,0"
@@ -56,11 +57,11 @@
         <Border Margin="0,8" />
 
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Content="Save" Width="80" />
             <Button
-                Content="Cancel"
-                Margin="10,0"
-                Width="60" />
+                Command="{Binding CloseCommand}"
+                Content="Close"
+                Width="80" />
+
         </StackPanel>
 
     </StackPanel>
