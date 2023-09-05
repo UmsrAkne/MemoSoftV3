@@ -89,11 +89,7 @@ namespace MemoSoftV3.ViewModels
 
             switch (entity)
             {
-                case Group group:
-                    group.CanChangeToSmartGroup =
-                        DatabaseManager.GetComments(new SearchOption())
-                            .All(c => c.GroupId != group.Id);
-
+                case Group:
                     pageName = nameof(GroupEditPage);
                     paramName = nameof(Group);
                     break;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using MemoSoftV3.Models;
 using Prism.Commands;
 using Prism.Services.Dialogs;
@@ -36,8 +37,11 @@ namespace MemoSoftV3.ViewModels
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            CurrentGroup = parameters.GetValue<Group>(nameof(Group));
             DatabaseManager = parameters.GetValue<DatabaseManager>(nameof(DatabaseManager));
+            CurrentGroup = parameters.GetValue<Group>(nameof(Group));
+            CurrentGroup.CanChangeToSmartGroup = DatabaseManager
+                .GetComments(new SearchOption())
+                .All(c => c.GroupId != CurrentGroup.Id);
         }
     }
 }
