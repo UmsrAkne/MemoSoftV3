@@ -6,6 +6,7 @@ using Prism.Services.Dialogs;
 
 namespace MemoSoftV3.ViewModels
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class GroupEditPageViewModel : IDialogAware
     {
         public event Action<IDialogResult> RequestClose;
