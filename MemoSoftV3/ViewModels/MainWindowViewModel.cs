@@ -70,6 +70,8 @@ namespace MemoSoftV3.ViewModels
 
         public ObservableCollection<Tag> Tags { get => tags; set => SetProperty(ref tags, value); }
 
+        public SearchOption GroupSearchOption { get; } = new ();
+
         public DelegateCommand CommandExecutionCommand => new (() =>
         {
             var parser = new CliParser();
@@ -131,7 +133,7 @@ namespace MemoSoftV3.ViewModels
 
         public DelegateCommand LoadCommand => new (() =>
         {
-            Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(new SearchOption()));
+            Groups = new ObservableCollection<Group>(DatabaseManager.GetGroups(GroupSearchOption));
             Tags = new ObservableCollection<Tag>(DatabaseManager.GetTags(new SearchOption()));
 
             // (CurrentGroup not null) and (IsSmartGroup is true)
