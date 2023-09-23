@@ -22,6 +22,9 @@ namespace MemoSoftV3.Models
         [Required]
         public string Command { get; set; } = string.Empty;
 
+        [Required]
+        public bool IsArchive { get; set; } = false;
+
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;
 
