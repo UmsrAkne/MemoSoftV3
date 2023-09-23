@@ -31,6 +31,13 @@
 
         <Menu Grid.Row="0">
             <MenuItem Header="File" />
+            <MenuItem Header="Group">
+                <MenuItem
+                    Command="{Binding LoadCommand}"
+                    Header="アーカイブグループも表示する"
+                    IsCheckable="True"
+                    IsChecked="{Binding GroupSearchOption.ContainsArchivedGroup}" />
+            </MenuItem>
         </Menu>
 
         <DockPanel Grid.Row="1">

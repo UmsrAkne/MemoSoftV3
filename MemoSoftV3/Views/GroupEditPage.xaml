@@ -52,6 +52,15 @@
                 Margin="4,2,0,0"
                 VerticalAlignment="Center"
                 x:Name="IsSmartGroup" />
+
+            <Border Margin="10,0" />
+
+            <TextBlock DockPanel.Dock="Left" Text="IsArchive : " />
+            <CheckBox
+                Command="{Binding SaveChangesCommand}"
+                IsChecked="{Binding CurrentGroup.IsArchive}"
+                Margin="4,2,0,0"
+                VerticalAlignment="Center" />
         </DockPanel>
 
         <Border Margin="0,8" />

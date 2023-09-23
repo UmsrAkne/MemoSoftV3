@@ -259,9 +259,21 @@ namespace MemoSoftV3.Models
 
         public List<Group> GetGroups(SearchOption searchOption)
         {
+            if (searchOption.ContainsArchivedGroup)
+            {
+                return string.IsNullOrEmpty(searchOption.GroupName)
+                    ? DataSource.GetGroups().ToList()
+                    : DataSource.GetGroups().Where(g => g.Name.Contains(searchOption.GroupName)).ToList();
+            }
+            
             return string.IsNullOrEmpty(searchOption.GroupName)
-                ? DataSource.GetGroups().ToList()
-                : DataSource.GetGroups().Where(g => g.Name.Contains(searchOption.GroupName)).ToList();
+                ? DataSource.GetGroups()
+                    .Where(g => !g.IsArchive)
+                    .ToList()
+                : DataSource.GetGroups()
+                    .Where(g => !g.IsArchive)
+                    .Where(g => g.Name.Contains(searchOption.GroupName))
+                    .ToList();
         }
 
         public List<Tag> GetTags(SearchOption searchOption)
