@@ -8,6 +8,7 @@ namespace MemoSoftV3.Models
     public class Group : BindableBase, IDatabaseEntity
     {
         private bool isSmartGroup;
+        private bool isArchive;
 
         [Key]
         [Required]
@@ -23,7 +24,7 @@ namespace MemoSoftV3.Models
         public string Command { get; set; } = string.Empty;
 
         [Required]
-        public bool IsArchive { get; set; } = false;
+        public bool IsArchive { get => isArchive; set => SetProperty(ref isArchive, value); }
 
         [NotMapped]
         public DateTime DateTime { get; set; } = DateTime.Now;

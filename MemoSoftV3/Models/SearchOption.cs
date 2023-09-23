@@ -33,6 +33,8 @@ namespace MemoSoftV3.Models
 
         public string GroupName { get; set; } = string.Empty;
 
+        public bool ContainsArchivedGroup { get; set; } = false;
+
         public bool IsDefault =>
             string.IsNullOrEmpty(Text)
             && string.IsNullOrEmpty(GroupName)

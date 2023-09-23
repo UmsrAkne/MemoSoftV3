@@ -23,6 +23,11 @@ namespace MemoSoftV3.ViewModels
             DatabaseManager.SaveChanges();
         });
 
+        public DelegateCommand SaveChangesCommand => new (() =>
+        {
+            DatabaseManager.SaveChanges();
+        });
+
         public DatabaseManager DatabaseManager { get; private set; }
 
         public string Title => string.Empty;
