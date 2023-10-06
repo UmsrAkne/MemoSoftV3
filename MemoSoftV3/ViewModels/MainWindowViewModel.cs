@@ -24,7 +24,7 @@ namespace MemoSoftV3.ViewModels
         {
             DatabaseManager = new DatabaseManager(dataSource);
 
-            if (DatabaseManager.GetGroups(new SearchOption()).Count == 0)
+            if (DatabaseManager.GetGroups(new GroupSearchOption()).Count == 0)
             {
                 DatabaseManager.Add(new Group { Name = "All", IsSmartGroup = true, });
             }
@@ -70,7 +70,7 @@ namespace MemoSoftV3.ViewModels
 
         public ObservableCollection<Tag> Tags { get => tags; set => SetProperty(ref tags, value); }
 
-        public SearchOption GroupSearchOption { get; } = new ();
+        public GroupSearchOption GroupSearchOption { get; } = new ();
 
         public DelegateCommand CommandExecutionCommand => new (() =>
         {

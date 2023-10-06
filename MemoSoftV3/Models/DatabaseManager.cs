@@ -257,22 +257,22 @@ namespace MemoSoftV3.Models
             }
         }
 
-        public List<Group> GetGroups(SearchOption searchOption)
+        public List<Group> GetGroups(GroupSearchOption searchOption)
         {
             if (searchOption.ContainsArchivedGroup)
             {
-                return string.IsNullOrEmpty(searchOption.GroupName)
+                return string.IsNullOrEmpty(searchOption.Name)
                     ? DataSource.GetGroups().ToList()
-                    : DataSource.GetGroups().Where(g => g.Name.Contains(searchOption.GroupName)).ToList();
+                    : DataSource.GetGroups().Where(g => g.Name.Contains(searchOption.Name)).ToList();
             }
-            
-            return string.IsNullOrEmpty(searchOption.GroupName)
+
+            return string.IsNullOrEmpty(searchOption.Name)
                 ? DataSource.GetGroups()
                     .Where(g => !g.IsArchive)
                     .ToList()
                 : DataSource.GetGroups()
                     .Where(g => !g.IsArchive)
-                    .Where(g => g.Name.Contains(searchOption.GroupName))
+                    .Where(g => g.Name.Contains(searchOption.Name))
                     .ToList();
         }
 
