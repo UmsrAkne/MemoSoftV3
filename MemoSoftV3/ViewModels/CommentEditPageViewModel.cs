@@ -71,12 +71,12 @@ namespace MemoSoftV3.ViewModels
         {
             Comment = parameters.GetValue<Comment>(nameof(Comment));
             DatabaseManager = parameters.GetValue<DatabaseManager>(nameof(DatabaseManager));
-            Groups = DatabaseManager.GetGroups(new SearchOption()).Where(g => !g.IsSmartGroup).ToList();
+            Groups = DatabaseManager.GetGroups(new GroupSearchOption()).Where(g => !g.IsSmartGroup).ToList();
 
             if (Comment.GroupId != 0)
             {
                 CurrentGroup = DatabaseManager
-                    .GetGroups(new SearchOption())
+                    .GetGroups(new GroupSearchOption())
                     .FirstOrDefault(g => g.Id == Comment.GroupId);
             }
         }
